@@ -7,6 +7,12 @@ public class Location {
         return x;
     }
 
+    Location(Long x, int y, String name){
+        setX(x);
+        setY(y);
+        setName(name);
+    }
+
     public void setX(Long x) {
         if(x == null)
             throw new RuntimeException("Error Location");

@@ -1,29 +1,30 @@
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
 public class InputHandler {
-    private final InputStreamReader reader = new InputStreamReader(System.in);
+    private final DeqCollection<?> data;
+    private final CommandParser parser;
+    InputHandler(DeqCollection<?> data){
+        this.data = data;
+        this.parser = new CommandParser(data);
+    }
 
-    public String get() {
-        StringBuilder str = new StringBuilder();
+    public void start() {
+        data.load(new FileReader());
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         try {
-            while (reader.ready()) {
-                str.append(reader.read());
+            while (true) {
+                try {
+                    parser.parseCommand(reader.readLine());
+                } catch (IllegalArgumentException ex) {
+                    System.out.println("Error in parsing command");
+                }
             }
-        }catch (java.io.IOException exception) {
-            throw new RuntimeException
-                    ("reading Error\njava.io.IOException:::::" +
-                            exception.getMessage());
-
-        }
-        return str.toString();
-    }
-
-    public void close() {
-        try {
-            reader.close();
-        }catch (java.io.IOException exception) {
-            throw new RuntimeException
-                    ("reading Error\njava.io.IOException:::::" +
-                            exception.getMessage());
+        }catch (java.io.IOException ex){
+            System.out.println("Error in reading command");
         }
     }
+
 }

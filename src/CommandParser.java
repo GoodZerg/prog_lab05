@@ -18,17 +18,20 @@ public class CommandParser {
                                                         else throw new IllegalArgumentException(""); }
             case "show"                            -> { if (words.length == 1) invoker.execute(new CommandShow(data));
                                                         else throw new IllegalArgumentException(""); }
-            case "add "                            -> { if (words.length == 1) invoker.execute(new CommandAdd(data));
+            case "add"                            -> { if (words.length == 1) invoker.execute(new CommandAdd(data));
                                                         else throw new IllegalArgumentException(""); }
-            case "update"                          -> { if (words.length == 2) invoker.execute(new CommandUpdate(data, Long.parseLong(words[1])));
+            case "update"                          -> { if (words.length == 2) invoker.execute(new CommandUpdate(data,
+                                                            Long.parseLong(words[1])));
                                                         else throw new IllegalArgumentException(""); }
-            case "remove_by_id"                    -> { if (words.length == 2) invoker.execute(new CommandRemoveById(data, Long.parseLong(words[1]));
+            case "remove_by_id"                    -> { if (words.length == 2) invoker.execute(new CommandRemoveById(data,
+                                                            Long.parseLong(words[1])));
                                                         else throw new IllegalArgumentException(""); }
             case "clear"                           -> { if (words.length == 1) invoker.execute(new CommandClear(data));
                                                         else throw new IllegalArgumentException(""); }
-            case "save "                           -> { if (words.length == 1) invoker.execute(new CommandSave(data));
+            case "save"                           -> { if (words.length == 1) invoker.execute(new CommandSave(data));
                                                         else throw new IllegalArgumentException(""); }
-            case "execute_script"                  -> { if (words.length == 2) invoker.execute(new CommandExecuteScript(data, words[1]));
+            case "execute_script"                  -> { if (words.length == 2) invoker.execute(new CommandExecuteScript(data,
+                                                            words[1]));
                                                         else throw new IllegalArgumentException(""); }
             case "exit"                            -> { if (words.length == 1) invoker.execute(new CommandExit(data));
                                                         else throw new IllegalArgumentException(""); }
@@ -40,7 +43,8 @@ public class CommandParser {
                                                         else throw new IllegalArgumentException(""); }
             case "max_by_coordinates"              -> { if (words.length == 1) invoker.execute(new CommandMaxByCoordinates(data));
                                                         else throw new IllegalArgumentException(""); }
-            case "count_by_distance"               -> { if (words.length == 2) invoker.execute(new CommandCountByDistance(data, Integer.parseInt(words[1]));
+            case "count_by_distance"               -> { if (words.length == 2) invoker.execute(new CommandCountByDistance(data,
+                                                            Integer.parseInt(words[1])));
                                                         else throw new IllegalArgumentException(""); }
             case "print_field_descending_distance" -> { if (words.length == 1) invoker.execute(new CommandPrintFieldDescendingDistance(data));
                                                         else throw new IllegalArgumentException(""); }

@@ -5,6 +5,6 @@ public class CommandAdd extends Command{
 
     @Override
     public void execute() {
-
+        data.getStorage().add();
     }
 }

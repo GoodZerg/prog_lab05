@@ -19,7 +19,7 @@ public class InputHandler {
                 try {
                     parser.parseCommand(reader.readLine());
                 } catch (IllegalArgumentException ex) {
-                    System.out.println("Error in parsing command");
+                    System.out.println("Error command");
                 }
             }
         }catch (java.io.IOException ex){

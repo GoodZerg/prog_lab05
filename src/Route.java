@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
 
 public class Route implements Collectible, Comparable<Route>{
@@ -14,7 +16,7 @@ public class Route implements Collectible, Comparable<Route>{
     Route(){
         id = ++nextId;
         setCreationDate(java.time.LocalDate.now());
-        loadFromStandardInput();
+//        loadFromStandardInput();
     }
 
     Route(long id, String name, Coordinates coordinates, java.time.LocalDate creationDate,
@@ -97,13 +99,151 @@ public class Route implements Collectible, Comparable<Route>{
 
     @Override
     public void loadFromStandardInput() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String name;
+        while (true) {
+            try {
+                System.out.println("name: ");
+                name = reader.readLine();
+                setName(name);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong name");
+            }
+        }
 
+        System.out.println("coordinates: ");
+        Coordinates cor = new Coordinates(0L,0F);
+        String tmp;
+        Long X;
+        Float Y;
+        while (true) {
+            try {
+                System.out.println("X: ");
+                tmp = reader.readLine();
+                X = Long.parseLong(tmp);
+                cor.setX(X);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong X");
+            }
+        }
+        while (true) {
+            try {
+                System.out.println("Y: ");
+                tmp = reader.readLine();
+                Y = Float.parseFloat(tmp);
+                cor.setY(Y);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong Y");
+            }
+        }
+        setCoordinates(coordinates);
+
+        System.out.println("From: ");
+        Location from = new Location(0L,0, "asd");
+        String FName;
+        Long FX;
+        int FY;
+        while (true) {
+            try {
+                System.out.println("X: ");
+                tmp = reader.readLine();
+                FX = Long.parseLong(tmp);
+                from.setX(FX);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong X");
+            }
+        }
+        while (true) {
+            try {
+                System.out.println("Y: ");
+                tmp = reader.readLine();
+                FY = Integer.parseInt(tmp);
+                from.setY(FY);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong Y");
+            }
+        }
+        while (true) {
+            try {
+                System.out.println("name: ");
+                FName = reader.readLine();
+                from.setName(FName);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong name");
+            }
+        }
+        setFrom(from);
+
+        System.out.println("To: ");
+        Location to = new Location(0L,0, "asd");
+        String TName;
+        Long TX;
+        int TY;
+        while (true) {
+            try {
+                System.out.println("X: ");
+                tmp = reader.readLine();
+                TX = Long.parseLong(tmp);
+                to.setX(TX);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong X");
+            }
+        }
+        while (true) {
+            try {
+                System.out.println("Y: ");
+                tmp = reader.readLine();
+                TY = Integer.parseInt(tmp);
+                to.setY(TY);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong Y");
+            }
+        }
+        while (true) {
+            try {
+                System.out.println("name: ");
+                TName = reader.readLine();
+                to.setName(TName);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong name");
+            }
+        }
+        setTo(to);
+        Integer distance = 0;
+        while (true) {
+            try {
+                System.out.println("distance: ");
+                tmp = reader.readLine();
+                distance = Integer.parseInt(tmp);
+                setDistance(distance);
+                break;
+            } catch (RuntimeException | java.io.IOException ex) {
+                System.out.println("wrong distance");
+            }
+        }
     }
+
 
     @Override
     public String convertToCsv() {
         return null;
     }
+
+    @Override
+    public String toString(){
+
+        return Long.toString(id);
+    }
+
 
     @Override
     public long getId() {

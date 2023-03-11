@@ -1,26 +1,26 @@
+import java.lang.reflect.ParameterizedType;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
-import java.util.Objects;
-import java.util.function.Supplier;
+
 
 public class DeqCollection<T extends Collectible & Comparable<T>> {
 
-    private ArrayDeque<T> storage = new ArrayDeque<T>();
+    private ArrayDeque<T> storage = new ArrayDeque<T>(0);
     private java.time.LocalDate creationDate;
+    private final Factory<T> factory;
 
+    DeqCollection(Factory<T> factory){
+        this.factory = factory;
+        T a = createContents();
+        storage.add(a);
+    }
     public void load(FileReader fileReader){
         ///TODO
-
         creationDate = java.time.LocalDate.now();
     }
-    private final Supplier<? extends T> ctor;
 
-    DeqCollection(Supplier<? extends T> ctor) {
-        this.ctor = Objects.requireNonNull(ctor);
-    }
-
-    public T myMethod() {
-        return ctor.get();
+    T createContents() {
+        return factory.create();
     }
     public ArrayDeque<T> getStorage() {
         return storage;

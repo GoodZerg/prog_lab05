@@ -3,8 +3,14 @@ public class CommandShow extends Command{
         super(data);
     }
 
+    private <T extends Collectible & Comparable<T>> void fooHelper(DeqCollection<T> data){
+        for (Collectible i : data.getStorage()){
+            System.out.println(i.toString());
+        }
+    }
+
     @Override
     public void execute() {
-
+        fooHelper(data);
     }
 }

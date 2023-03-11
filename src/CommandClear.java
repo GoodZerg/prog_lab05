@@ -5,6 +5,6 @@ public class CommandClear extends Command{
 
     @Override
     public void execute() {
-
+        data.getStorage().clear();
     }
 }

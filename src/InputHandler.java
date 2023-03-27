@@ -1,12 +1,13 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 
 public class InputHandler {
     private final DeqCollection<?> data;
-    private final CommandParser parser;
+    private final Invoker parser;
     InputHandler(DeqCollection<?> data){
         this.data = data;
-        this.parser = new CommandParser(data);
+        this.parser = new Invoker(data);
     }
 
     public void start() {
@@ -20,6 +21,9 @@ public class InputHandler {
                     parser.parseCommand(reader.readLine());
                 } catch (IllegalArgumentException ex) {
                     System.out.println("Error command");
+                } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
+                         IllegalAccessException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }catch (java.io.IOException ex){

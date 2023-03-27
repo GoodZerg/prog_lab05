@@ -1,6 +1,7 @@
 import java.lang.reflect.ParameterizedType;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
+import java.util.Vector;
 
 
 public class DeqCollection<T extends Collectible & Comparable<T>> {
@@ -11,15 +12,13 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
 
     DeqCollection(Factory<T> factory){
         this.factory = factory;
-        T a = createContents();
-        storage.add(a);
     }
     public void load(FileReader fileReader){
         ///TODO
         creationDate = java.time.LocalDate.now();
     }
 
-    T createContents() {
+    public T createContents() {
         return factory.create();
     }
     public ArrayDeque<T> getStorage() {

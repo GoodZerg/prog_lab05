@@ -139,7 +139,7 @@ public class Route implements Collectible, Comparable<Route>{
                 System.out.println("wrong Y");
             }
         }
-        setCoordinates(coordinates);
+        setCoordinates(cor);
 
         System.out.println("From: ");
         Location from = new Location(0L,0, "asd");
@@ -240,8 +240,16 @@ public class Route implements Collectible, Comparable<Route>{
 
     @Override
     public String toString(){
-
-        return Long.toString(id);
+        StringBuilder sb = new StringBuilder("");
+        sb.append("Id: ");             sb.append(getId());                      sb.append("\n");
+        sb.append("Name: ");           sb.append(getName());                    sb.append("\n");
+        sb.append("Coordinates: \n");  sb.append(getCoordinates().toString());  sb.append("\n");
+        sb.append("CreationDate: ");   sb.append(getCreationDate().toString()); sb.append("\n");
+        sb.append("From: \n");         sb.append(getFrom().toString());         sb.append("\n");
+        sb.append("To: \n");           sb.append(getTo().toString());           sb.append("\n");
+        sb.append("Distance: ");       sb.append(getDistance());                sb.append("\n");
+        return sb.toString();
+        //return Long.toString(id);
     }
 
 

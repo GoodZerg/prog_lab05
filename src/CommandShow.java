@@ -11,6 +11,7 @@ public class CommandShow extends Command{
 
     @Override
     public void execute() {
+        System.out.println("Collection: \n");
         fooHelper(data);
     }
 }

@@ -36,4 +36,13 @@ public class Location {
             throw new RuntimeException("Error Coordinate");
         this.name = name;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("     X: ");    sb.append(getX());    sb.append("\n");
+        sb.append("     Y: ");    sb.append(getY());    sb.append("\n");
+        sb.append("     Name: "); sb.append(getName());
+        return sb.toString();
+    }
 }

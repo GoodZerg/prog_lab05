@@ -89,6 +89,15 @@ public class Invoker {
                 0));
     }
 
+    public  static _CommandInformation findCommandByClass(Class<?> command_class){
+        for (_CommandInformation i :
+                commandsInfo){
+            if(command_class == i.command_class) return i;
+        }
+        return new _CommandInformation("Error", Command.class, 0);
+    }
+
+
     private void findCommandByName(String[] words)
             throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         String first_word = words[0];

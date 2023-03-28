@@ -32,7 +32,7 @@ public class Coordinates {
         StringBuilder sb = new StringBuilder();
 
         sb.append("     X: "); sb.append(getX()); sb.append("\n");
-        sb.append("     Y: ");
+        sb.append("     Y: "); sb.append(getY());
 
         return sb.toString();
     }

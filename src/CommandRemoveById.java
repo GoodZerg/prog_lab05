@@ -16,6 +16,7 @@ public class CommandRemoveById extends Command{
                 return;
             }
         }
+        System.out.println("Такого id нет");
     }
     @Override
     public void execute() {

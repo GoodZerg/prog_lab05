@@ -33,4 +33,5 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
     }
 
     public Optional<T> findMax(){return storage.stream().max(T::compareTo);}
+    public Optional<T> findMaxByCord(){return storage.stream().max(T::compareByCord);}
 }

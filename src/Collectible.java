@@ -3,7 +3,6 @@ public interface Collectible {
     public void loadFromStandardInput();
     public String convertToCsv();
     public long getId();
-
     public Integer getDistance();
-
+    public int compareByCord(Object o);
 }

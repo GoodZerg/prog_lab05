@@ -1,4 +1,4 @@
-public class Coordinates {
+public class Coordinates implements Comparable<Coordinates>{
     private long x; //Максимальное значение поля: 211
     private Float y; //Максимальное значение поля: 899, Поле не может быть null
 
@@ -35,5 +35,10 @@ public class Coordinates {
         sb.append("     Y: "); sb.append(getY());
 
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Coordinates o) {
+        return (int) ((x + y) - (o.getX() + o.getY()));
     }
 }

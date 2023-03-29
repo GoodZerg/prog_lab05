@@ -82,6 +82,7 @@ public class Route implements Collectible, Comparable<Route>{
         this.to = to;
     }
 
+    @Override
     public Integer getDistance() {
         return distance;
     }

@@ -4,4 +4,6 @@ public interface Collectible {
     public String convertToCsv();
     public long getId();
 
+    public Integer getDistance();
+
 }

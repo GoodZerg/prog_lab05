@@ -260,7 +260,7 @@ public class Route implements Collectible, Comparable<Route>{
 
     @Override
     public int compareTo(Route o) {
-        return 0;
+        return this.distance - o.distance;
     }
 
 }

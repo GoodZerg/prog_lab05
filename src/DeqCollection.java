@@ -1,7 +1,6 @@
-import java.lang.reflect.ParameterizedType;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
-import java.util.Vector;
+import java.util.Optional;
 
 
 public class DeqCollection<T extends Collectible & Comparable<T>> {
@@ -17,7 +16,6 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
         ///TODO
         creationDate = java.time.LocalDate.now();
     }
-
     public T createContents() {
         return factory.create();
     }
@@ -28,4 +26,6 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
     public LocalDate getCreationDate() {
         return creationDate;
     }
+
+    public Optional<T> findMax(){return storage.stream().max(T::compareTo);}
 }

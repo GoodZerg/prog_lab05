@@ -13,7 +13,6 @@ public class CommandAdd extends Command{
 
     @Override
     public void execute() {
-        System.out.println("add excecute");
         fooHelper(data);
     }
 }

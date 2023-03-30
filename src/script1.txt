@@ -1,9 +1,2 @@
-asdasd
-asdasd
-asdasd
-123
-a
 execute_script script2.txt
-asd
-as2
 execute_script script3.txt

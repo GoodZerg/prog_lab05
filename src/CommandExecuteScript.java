@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -53,7 +54,25 @@ public class CommandExecuteScript extends Command{
         Vector<String> callStack = new Vector<>(1);
         callStack.add(fileName);
         if(checkRecursion(reader, callStack)){
-
+            try {
+                reader = readFile(fileName);
+            } catch(FileNotFoundException | NullPointerException e){
+                System.out.println("Cannot open file");
+                return;
+            }
+            Invoker localScriptInvoker = new Invoker(data);
+            try{
+                while(reader.ready()){
+                    try {
+                        localScriptInvoker.parseCommand(reader.readLine());
+                    } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
+                             IllegalAccessException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }catch (IOException e){
+                System.out.println("Cannot read the file");
+            }
         } else {
             System.out.println("recursion");
         }

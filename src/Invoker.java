@@ -109,13 +109,17 @@ public class Invoker {
                         execute((Command) i.command_class.getDeclaredConstructor(DeqCollection.class)
                                 .newInstance(data));
                         return;
-                    } else if (Objects.equals("update", i.name) || Objects.equals("remove_by_id", i.name) ){
+                    } else if (Objects.equals("update", i.name) || Objects.equals("remove_by_id", i.name)){
                         execute((Command) i.command_class.getDeclaredConstructor(DeqCollection.class, Long.class)
                                 .newInstance(data,Long.parseLong(words[1])));
                         return;
                     } else if (Objects.equals("count_by_distance", i.name)) {
                         execute((Command) i.command_class.getDeclaredConstructor(DeqCollection.class, Integer.class)
                                 .newInstance(data, Integer.parseInt(words[1])));
+                        return;
+                    } else if(Objects.equals("execute_script", i.name)){
+                        execute((Command) i.command_class.getDeclaredConstructor(DeqCollection.class, String.class)
+                                .newInstance(data, words[1]));
                         return;
                     }
                 } else {

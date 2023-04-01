@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Vector;
@@ -98,22 +100,33 @@ public class Invoker {
     }
 
 
-    private void findCommandByName(String[] words)
+    private void findCommandByName(String[] words, BufferedReader reader, boolean isStandardInput)
             throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         String first_word = words[0];
         for (_CommandInformation i :
                 commandsInfo) {
             if(Objects.equals(first_word, i.name)){
                 if(words.length == i.argument_count + 1){
-                    if(words.length == 1){
+                    if(Objects.equals("add", i.name) ||
+                            Objects.equals("add_if_max", i.name) ||
+                            Objects.equals("remove_lower", i.name)){
+                        execute((Command) i.command_class.getDeclaredConstructor(
+                                DeqCollection.class, BufferedReader.class, boolean.class
+                                ).newInstance(data, reader, isStandardInput));
+                    } else if(words.length == 1){
                         execute((Command) i.command_class.getDeclaredConstructor(DeqCollection.class)
                                 .newInstance(data));
                         return;
-                    } else if (Objects.equals("update", i.name) || Objects.equals("remove_by_id", i.name)){
+                    } else if (Objects.equals("update", i.name)){
+                        execute((Command) i.command_class.getDeclaredConstructor(
+                                DeqCollection.class, Long.class, BufferedReader.class, boolean.class)
+                                .newInstance(data,Long.parseLong(words[1]), reader, isStandardInput));
+                        return;
+                    } else if (Objects.equals("remove_by_id", i.name)){
                         execute((Command) i.command_class.getDeclaredConstructor(DeqCollection.class, Long.class)
                                 .newInstance(data,Long.parseLong(words[1])));
                         return;
-                    } else if (Objects.equals("count_by_distance", i.name)) {
+                    }else if (Objects.equals("count_by_distance", i.name)) {
                         execute((Command) i.command_class.getDeclaredConstructor(DeqCollection.class, Integer.class)
                                 .newInstance(data, Integer.parseInt(words[1])));
                         return;
@@ -138,12 +151,12 @@ public class Invoker {
         this.data = data;
     }
 
-    public void parseCommand(String str)
+    public void parseCommand(String str, BufferedReader reader, boolean isStandardInput)
             throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         if(str == null)
             throw new RuntimeException("null command");
         String[] words = str.split(" ");
-        findCommandByName(words);
+        findCommandByName(words, reader, isStandardInput);
     }
 }
 

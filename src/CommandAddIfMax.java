@@ -1,13 +1,19 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Optional;
 
 public class CommandAddIfMax extends Command{
-    CommandAddIfMax(DeqCollection<?> data) {
+    BufferedReader reader;
+    boolean isStandardInput;
+    CommandAddIfMax(DeqCollection<?> data, BufferedReader reader, boolean isStandardInput) {
         super(data);
+        this.reader = reader;
+        this.isStandardInput = isStandardInput;
     }
 
     private <T extends Collectible & Comparable<T>> void fooHelper(DeqCollection<T> data){
         T tmp = (T)data.createContents();
-        tmp.loadFromStandardInput();
+        tmp.loadFromStandardInput(reader, isStandardInput);
         Optional<T> max = data.findMax();
         T _max;
         if(max.isPresent()){

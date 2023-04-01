@@ -64,7 +64,7 @@ public class CommandExecuteScript extends Command{
             try{
                 while(reader.ready()){
                     try {
-                        localScriptInvoker.parseCommand(reader.readLine());
+                        localScriptInvoker.parseCommand(reader.readLine(), reader, false);
                     } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
                              IllegalAccessException | IOException e) {
                         throw new RuntimeException(e);

@@ -18,7 +18,7 @@ public class InputHandler {
         try {
             while (true) {
                 try {
-                    parser.parseCommand(reader.readLine());
+                    parser.parseCommand(reader.readLine(), reader, true);
                 } catch (IllegalArgumentException ex) {
                     System.out.println("Error command");
                 } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |

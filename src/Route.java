@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 
@@ -102,138 +103,150 @@ public class Route implements Collectible, Comparable<Route>{
     public void loadFromCsv(String str) {
 
     }
+    private void printIf(String str, boolean p){
+        if(p){
+            System.out.println(str);
+        }
+    }
+
+    private void traceBackExceptionIf(String what, boolean p){
+        System.out.println(what);
+        if(p){
+            throw new RuntimeException("");
+        }
+    }
 
     @Override
-    public void loadFromStandardInput() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    public void loadFromStandardInput(BufferedReader _reader, boolean isStandardInput) {
         String name;
         while (true) {
             try {
-                System.out.println("name: ");
-                name = reader.readLine();
+                printIf("name: ", isStandardInput);
+                name = _reader.readLine();
                 setName(name);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong name");
+                traceBackExceptionIf("wrong name", !isStandardInput);
             }
         }
 
-        System.out.println("coordinates: ");
+        printIf("coordinates: ", isStandardInput);
         Coordinates cor = new Coordinates(0L,0F);
         String tmp;
         Long X;
         Float Y;
         while (true) {
             try {
-                System.out.println("X: ");
-                tmp = reader.readLine();
+                printIf("X: ", isStandardInput);
+                tmp = _reader.readLine();
                 X = Long.parseLong(tmp);
                 cor.setX(X);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong X");
+                traceBackExceptionIf("wrong X", !isStandardInput);
             }
         }
         while (true) {
             try {
-                System.out.println("Y: ");
-                tmp = reader.readLine();
+                printIf("Y: ", isStandardInput);
+                tmp = _reader.readLine();
                 Y = Float.parseFloat(tmp);
                 cor.setY(Y);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong Y");
+                traceBackExceptionIf("wrong Y", !isStandardInput);
             }
         }
         setCoordinates(cor);
 
-        System.out.println("From: ");
+        printIf("From: ", isStandardInput);
         Location from = new Location(0L,0, "asd");
         String FName;
         Long FX;
         int FY;
         while (true) {
             try {
-                System.out.println("X: ");
-                tmp = reader.readLine();
+                printIf("X: ", isStandardInput);
+                tmp = _reader.readLine();
                 FX = Long.parseLong(tmp);
                 from.setX(FX);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong X");
+                traceBackExceptionIf("wrong X", !isStandardInput);
             }
         }
         while (true) {
             try {
-                System.out.println("Y: ");
-                tmp = reader.readLine();
+                printIf("Y: ", isStandardInput);
+                tmp = _reader.readLine();
                 FY = Integer.parseInt(tmp);
                 from.setY(FY);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong Y");
+                traceBackExceptionIf("wrong Y", !isStandardInput);
             }
         }
         while (true) {
             try {
-                System.out.println("name: ");
-                FName = reader.readLine();
+                printIf("name: ", isStandardInput);
+                FName = _reader.readLine();
                 from.setName(FName);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong name");
+                traceBackExceptionIf("wrong name", !isStandardInput);
             }
         }
         setFrom(from);
 
-        System.out.println("To: ");
+        printIf("To: ", isStandardInput);
         Location to = new Location(0L,0, "asd");
         String TName;
         Long TX;
         int TY;
         while (true) {
             try {
-                System.out.println("X: ");
-                tmp = reader.readLine();
+                printIf("X: ", isStandardInput);
+                tmp = _reader.readLine();
                 TX = Long.parseLong(tmp);
                 to.setX(TX);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong X");
+                traceBackExceptionIf("wrong X", !isStandardInput);
             }
         }
         while (true) {
             try {
-                System.out.println("Y: ");
-                tmp = reader.readLine();
+                printIf("Y: ", isStandardInput);
+                tmp = _reader.readLine();
                 TY = Integer.parseInt(tmp);
                 to.setY(TY);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong Y");
+                traceBackExceptionIf("wrong Y", isStandardInput);
             }
         }
         while (true) {
             try {
-                System.out.println("name: ");
-                TName = reader.readLine();
+                printIf("name: ", isStandardInput);
+                TName = _reader.readLine();
                 to.setName(TName);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong name");
+                traceBackExceptionIf("wrong name", !isStandardInput);
             }
         }
         setTo(to);
         Integer distance = 0;
         while (true) {
             try {
-                System.out.println("distance: ");
-                tmp = reader.readLine();
+                printIf("distance: ", isStandardInput);
+                tmp = _reader.readLine();
                 distance = Integer.parseInt(tmp);
                 setDistance(distance);
                 break;
             } catch (RuntimeException | java.io.IOException ex) {
-                System.out.println("wrong distance");
+                System.out.println(tmp);
+                traceBackExceptionIf("wrong distance", !isStandardInput);
             }
         }
     }

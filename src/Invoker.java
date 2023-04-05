@@ -113,6 +113,7 @@ public class Invoker {
                         execute((Command) i.command_class.getDeclaredConstructor(
                                 DeqCollection.class, BufferedReader.class, boolean.class
                                 ).newInstance(data, reader, isStandardInput));
+                        return;
                     } else if(words.length == 1){
                         execute((Command) i.command_class.getDeclaredConstructor(DeqCollection.class)
                                 .newInstance(data));

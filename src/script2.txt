@@ -9,3 +9,5 @@ add
 123
 123
 123
+show
+execute_script script.txt

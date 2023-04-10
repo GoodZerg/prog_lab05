@@ -145,8 +145,8 @@ public class Invoker {
     }
 
     public void execute(Command command){
-        command.execute();
         doneCommands.add(command);
+        command.execute();
     }
     public Invoker(DeqCollection<?> data) {
         this.data = data;

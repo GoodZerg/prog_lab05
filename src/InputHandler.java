@@ -10,8 +10,8 @@ public class InputHandler {
         this.parser = new Invoker(data);
     }
 
-    public void start() {
-        data.load(new FileReader());
+    public void start(String file_name) {
+        data.load(new FileReader(file_name));
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 

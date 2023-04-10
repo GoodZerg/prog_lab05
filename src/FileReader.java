@@ -1,8 +1,18 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
 public class FileReader {
-    private final InputStreamReader reader = new InputStreamReader(System.in); ///TODO not System.in
+    private final InputStreamReader reader;
 
+    FileReader(String file_name) {
+        try {
+            this.reader = new InputStreamReader(new FileInputStream(file_name));
+        }catch (FileNotFoundException e) {
+            throw new RuntimeException();
+        }
+    }
     public String get() {
         StringBuilder str = new StringBuilder();
         try {
@@ -13,7 +23,6 @@ public class FileReader {
             throw new RuntimeException
                     ("reading Error\njava.io.IOException:::::" +
                             exception.getMessage());
-
         }
         return str.toString();
     }

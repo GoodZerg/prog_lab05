@@ -7,4 +7,5 @@ public interface Collectible {
     public long getId();
     public Integer getDistance();
     public int compareByCord(Object o);
+    public void setStartID(long id);
 }

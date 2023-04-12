@@ -93,6 +93,11 @@ public class Route implements Collectible, Comparable<Route>{
         return coordinates.compareTo(((Route)o).getCoordinates());
     }
 
+    @Override
+    public void setStartID(long id) {
+        nextId = id;
+    }
+
     public void setDistance(Integer distance) {
         if (distance == null || distance <= 1)
             throw new RuntimeException("Error Route");

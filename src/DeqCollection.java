@@ -23,6 +23,11 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
             t.loadFromCsv(fileReader.get());
             storage.add(t);
         }
+        long max_id = 0;
+        for (T i : storage) {
+            if(i.getId() > max_id) max_id = i.getId();
+        }
+        if(!storage.isEmpty()) storage.getFirst().setStartID(max_id);
     }
 
     public void save(){

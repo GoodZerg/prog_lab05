@@ -101,7 +101,42 @@ public class Route implements Collectible, Comparable<Route>{
 
     @Override
     public void loadFromCsv(String str) {
-
+        String[] line = str.split(",");
+        long id;
+        String name;
+        long x;
+        Float y;
+        java.time.LocalDate creationDate;
+        Long x1;
+        int y1;
+        String name1;
+        Long x2;
+        int y2;
+        String name2;
+        Integer distance;
+        try {
+            id = Long.parseLong(line[0]);
+            name = line[1];
+            x = Long.parseLong(line[2]);
+            y = Float.parseFloat(line[3]);
+            creationDate = java.time.LocalDate.parse(line[4]);
+            x1 = Long.parseLong(line[5]);
+            y1 = Integer.parseInt(line[6]);
+            name1 = line[7];
+            x2 = Long.parseLong(line[8]);
+            y2 = Integer.parseInt(line[9]);
+            name2 = line[10];
+            distance = Integer.parseInt(line[11]);
+        }catch (RuntimeException e){
+            throw e;
+        }
+        setId(id);
+        setName(name);
+        setCoordinates(new Coordinates(x, y));
+        setCreationDate(creationDate);
+        setFrom(new Location(x1, y1, name1));
+        setTo(new Location(x2, y2, name2));
+        setDistance(distance);
     }
     private void printIf(String str, boolean p){
         if(p){
@@ -254,7 +289,14 @@ public class Route implements Collectible, Comparable<Route>{
 
     @Override
     public String convertToCsv() {
-        return null;
+        return
+        getId() + "," +
+        getName() + "," +
+        getCoordinates().toCsv() + "," +
+        getCreationDate() + "," +
+        getFrom().toCsv() + "," +
+        getTo().toCsv() + "," +
+        getDistance().toString();
     }
 
     @Override

@@ -5,6 +5,6 @@ public class CommandSave extends Command{
 
     @Override
     public void execute() {
-        //TODO
+        data.save();
     }
 }

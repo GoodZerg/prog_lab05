@@ -58,6 +58,10 @@ public class Invoker {
                 CommandClear.class,
                 0));
         commandsInfo.add(new _CommandInformation(
+                "save",
+                CommandSave.class,
+                0));
+        commandsInfo.add(new _CommandInformation(
                 "execute_script",
                 CommandExecuteScript.class,
                 1));

@@ -1,33 +1,33 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class FileReader {
-    private final InputStreamReader reader;
+    private final BufferedReader reader;
 
     FileReader(String file_name) {
         try {
-            File asdasd = new File(file_name);
-            System.out.println(asdasd.exists());
-            FileInputStream asd = new FileInputStream(asdasd);
-            this.reader = new InputStreamReader(asd);
+            this.reader = new BufferedReader(new InputStreamReader(new FileInputStream(file_name)));
         }catch (FileNotFoundException e) {
             throw new RuntimeException();
         }
     }
     public String get() {
-        StringBuilder str = new StringBuilder();
         try {
-            while (reader.ready()) {
-                str.append(reader.read());
-            }
+            return reader.readLine();
         }catch (java.io.IOException exception) {
             throw new RuntimeException
                     ("reading Error\njava.io.IOException:::::" +
                             exception.getMessage());
         }
-        return str.toString();
+    }
+
+    public boolean ready() {
+        try {
+            return reader.ready();
+        }catch (java.io.IOException exception) {
+            throw new RuntimeException
+                    ("reading Error\njava.io.IOException:::::" +
+                            exception.getMessage());
+        }
     }
 
     public void close() {

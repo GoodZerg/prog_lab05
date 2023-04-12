@@ -45,4 +45,8 @@ public class Location {
         sb.append("     Name: "); sb.append(getName());
         return sb.toString();
     }
+
+    public String toCsv() {
+        return getX() + "," + getY() + "," + getName();
+    }
 }

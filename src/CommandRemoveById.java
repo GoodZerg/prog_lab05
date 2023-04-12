@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CommandRemoveById extends Command{
     private long id;
-    CommandRemoveById(DeqCollection<?> data, long id) {
+    CommandRemoveById(DeqCollection<?> data, Long id) {
         super(data);
         this.id = id;
     }

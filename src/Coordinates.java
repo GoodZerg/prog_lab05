@@ -41,4 +41,7 @@ public class Coordinates implements Comparable<Coordinates>{
     public int compareTo(Coordinates o) {
         return (int) ((x + y) - (o.getX() + o.getY()));
     }
+    public String toCsv(){
+        return getX() + "," + getY();
+    }
 }

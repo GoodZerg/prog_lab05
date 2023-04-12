@@ -9,16 +9,30 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
     private java.time.LocalDate creationDate;
     private final Factory<T> factory;
     private final ArrayFactory<T> arrayFactory;
+    private OutputHandler output;
 
-    DeqCollection(Factory<T> factory, ArrayFactory<T> arrayFactory){
+    DeqCollection(Factory<T> factory, ArrayFactory<T> arrayFactory, OutputHandler output) {
         this.factory = factory;
         this.arrayFactory = arrayFactory;
+        this.output = output;
     }
     public void load(FileReader fileReader){
-        ///TODO
         creationDate = java.time.LocalDate.now();
-        System.out.println(fileReader.get());
+        while(fileReader.ready()){
+            T t = factory.create();
+            t.loadFromCsv(fileReader.get());
+            storage.add(t);
+        }
     }
+
+    public void save(){
+        output.start();
+        for (T i : storage) {
+            output.writeLine(i.convertToCsv()+"\n");
+        }
+        output.close();
+    }
+
     public T createContents() {
         return factory.create();
     }

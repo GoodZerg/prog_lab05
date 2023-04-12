@@ -12,7 +12,6 @@ public class InputHandler {
 
     public void start(String file_name) {
         data.load(new FileReader(file_name));
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         try {

@@ -8,7 +8,10 @@ public class FileReader {
 
     FileReader(String file_name) {
         try {
-            this.reader = new InputStreamReader(new FileInputStream(file_name));
+            File asdasd = new File(file_name);
+            System.out.println(asdasd.exists());
+            FileInputStream asd = new FileInputStream(asdasd);
+            this.reader = new InputStreamReader(asd);
         }catch (FileNotFoundException e) {
             throw new RuntimeException();
         }

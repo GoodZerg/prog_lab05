@@ -17,6 +17,7 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
     public void load(FileReader fileReader){
         ///TODO
         creationDate = java.time.LocalDate.now();
+        System.out.println(fileReader.get());
     }
     public T createContents() {
         return factory.create();

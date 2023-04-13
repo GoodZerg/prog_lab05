@@ -35,10 +35,7 @@ public class CommandExecuteScript extends Command{
     }
 
     public BufferedReader readFile(String name) throws FileNotFoundException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource(name)).getFile());
-        InputStream inputStream = new FileInputStream(file);
-        return new BufferedReader(new InputStreamReader(inputStream));
+        return new BufferedReader(new InputStreamReader(new FileInputStream(name)));
     }
 
 

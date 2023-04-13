@@ -73,7 +73,7 @@ public class Route implements Collectible, Comparable<Route>{
      */
     public void setName(String name) {
         if(name == null || name.equals(""))
-            throw new RuntimeException("Error Route");
+            throw new RuntimeException("Error Name");
         this.name = name;
     }
 
@@ -93,7 +93,7 @@ public class Route implements Collectible, Comparable<Route>{
      */
     public void setCoordinates(Coordinates coordinates) {
         if(coordinates == null)
-            throw new RuntimeException("Error Route");
+            throw new RuntimeException("Error Coordinates");
         this.coordinates = coordinates;
     }
 
@@ -113,7 +113,7 @@ public class Route implements Collectible, Comparable<Route>{
      */
     public void setCreationDate(LocalDate creationDate) {
         if(creationDate == null)
-            throw new RuntimeException("Error Route");
+            throw new RuntimeException("Error Creation date");
         this.creationDate = creationDate;
     }
 
@@ -133,7 +133,7 @@ public class Route implements Collectible, Comparable<Route>{
      */
     public void setFrom(Location from) {
         if(from == null)
-            throw new RuntimeException("Error Route");
+            throw new RuntimeException("Error From");
         this.from = from;
     }
 
@@ -177,7 +177,7 @@ public class Route implements Collectible, Comparable<Route>{
      */
     public void setDistance(Integer distance) {
         if (distance == null || distance <= 1)
-            throw new RuntimeException("Error Route");
+            throw new RuntimeException("Error Distance");
         this.distance = distance;
     }
 
@@ -385,11 +385,11 @@ public class Route implements Collectible, Comparable<Route>{
     public String toString(){
         StringBuilder sb = new StringBuilder("");
         sb.append("Id: ");             sb.append(getId());                      sb.append("\n");
-        sb.append("Name: ");           sb.append(getName());                    sb.append("\n");
+        sb.append("Name: \"");           sb.append(getName());                    sb.append("\"\n");
         sb.append("Coordinates: \n");  sb.append(getCoordinates().toString());  sb.append("\n");
         sb.append("CreationDate: ");   sb.append(getCreationDate().toString()); sb.append("\n");
-        sb.append("From: \n");         sb.append(getFrom().toString());         sb.append("\n");
-        sb.append("To: \n");           sb.append(getTo().toString());           sb.append("\n");
+        sb.append("From: \n");         sb.append(getFrom().toString());         sb.append("\"\n");
+        sb.append("To: \n");           sb.append(getTo().toString());           sb.append("\"\n");
         sb.append("Distance: ");       sb.append(getDistance());                sb.append("\n");
         return sb.toString();
         //return Long.toString(id);

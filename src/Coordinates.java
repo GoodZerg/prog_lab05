@@ -32,7 +32,7 @@ public class Coordinates implements Comparable<Coordinates>{
      */
     public void setX(long x) {
         if(x > 211)
-            throw new RuntimeException("Error Coordinate");
+            throw new RuntimeException("Error Coordinate:X");
         this.x = x;
     }
 
@@ -52,7 +52,7 @@ public class Coordinates implements Comparable<Coordinates>{
      */
     public void setY(Float y) {
         if(y > 899)
-            throw new RuntimeException("Error Coordinate");
+            throw new RuntimeException("Error Coordinate:Y");
         this.y = y;
     }
 

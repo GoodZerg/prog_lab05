@@ -33,7 +33,7 @@ public class InputHandler {
                 try {
                     parser.parseCommand(reader.readLine(), reader, true);
                 } catch (IllegalArgumentException ex) {
-                    System.out.println("Error command");
+                    System.out.println(ex.getMessage());
                 } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
                          IllegalAccessException e) {
                     throw new RuntimeException(e);

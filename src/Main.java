@@ -8,6 +8,10 @@ public class Main {
      * @param args the input arguments
      */
     public static void main(String[] args) {
+        if(args.length != 1){
+            System.out.println("Need param");
+            return;
+        }
         String file_name = args[0];
 //            = "src\\start.txt"; //TODO REMOVE DEBUG
         try {
@@ -16,7 +20,5 @@ public class Main {
         }catch (RuntimeException ex){
             System.out.println(ex.getMessage());
         }
-
-        System.out.println("PASS");
     }
 }

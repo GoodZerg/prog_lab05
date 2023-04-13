@@ -182,7 +182,7 @@ public class Invoker {
                         return;
                     }
                 } else {
-                    throw new IllegalArgumentException("");
+                    throw new IllegalArgumentException("wrong command args");
                 }
             }
         }

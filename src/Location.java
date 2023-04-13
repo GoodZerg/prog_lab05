@@ -73,7 +73,7 @@ public class Location {
      */
     public void setName(String name) {
         if(name == null || name.equals(""))
-            throw new RuntimeException("Error Coordinate");
+            throw new RuntimeException("Error Location:Name");
         this.name = name;
     }
 
@@ -82,7 +82,7 @@ public class Location {
         StringBuilder sb = new StringBuilder();
         sb.append("     X: ");    sb.append(getX());    sb.append("\n");
         sb.append("     Y: ");    sb.append(getY());    sb.append("\n");
-        sb.append("     Name: "); sb.append(getName());
+        sb.append("     Name:\" "); sb.append(getName());
         return sb.toString();
     }
 

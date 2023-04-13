@@ -3,8 +3,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Vector;
 
+/**
+ * The type Command execute script.
+ */
 public class CommandExecuteScript extends Command{
     private String fileName;
+
+    /**
+     * Instantiates a new Command execute script.
+     *
+     * @param data     the data
+     * @param fileName the file name
+     */
     CommandExecuteScript(DeqCollection<?> data, String fileName) {
         super(data);
         this.fileName = fileName;
@@ -34,6 +44,13 @@ public class CommandExecuteScript extends Command{
         return true;
     }
 
+    /**
+     * Read file buffered reader.
+     *
+     * @param name the file name
+     * @return the buffered reader
+     * @throws FileNotFoundException the file not found exception
+     */
     public BufferedReader readFile(String name) throws FileNotFoundException {
         return new BufferedReader(new InputStreamReader(new FileInputStream(name)));
     }

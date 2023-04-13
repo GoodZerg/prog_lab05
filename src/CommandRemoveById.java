@@ -2,8 +2,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The type Command remove by id.
+ */
 public class CommandRemoveById extends Command{
     private long id;
+
+    /**
+     * Instantiates a new Command remove by id.
+     *
+     * @param data the data
+     * @param id   the id
+     */
     CommandRemoveById(DeqCollection<?> data, Long id) {
         super(data);
         this.id = id;

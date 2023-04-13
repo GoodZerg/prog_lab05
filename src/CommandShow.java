@@ -1,4 +1,12 @@
+/**
+ * The type Command show.
+ */
 public class CommandShow extends Command{
+    /**
+     * Instantiates a new Command show.
+     *
+     * @param data the data
+     */
     CommandShow(DeqCollection<?> data) {
         super(data);
     }

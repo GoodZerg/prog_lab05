@@ -4,19 +4,51 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.Vector;
 
+/**
+ * The type Invoker.
+ */
 public class Invoker {
     private final DeqCollection<?> data;
     private static final Vector<Command> doneCommands = new Vector<Command>();
 
+    /**
+     * The constant command_num.
+     */
     public static final int command_num = 16;
+
+    /**
+     * Get done commands vector.
+     *
+     * @return the vector
+     */
     public static Vector<Command> getDoneCommands(){
         return doneCommands;
     }
 
+    /**
+     * The type Command information.
+     */
     public static class _CommandInformation{
+        /**
+         * The Name.
+         */
         public String name;
+        /**
+         * The Command class.
+         */
         public Class<?> command_class;
+        /**
+         * The Argument count.
+         */
         public int argument_count;
+
+        /**
+         * Instantiates a new Command information.
+         *
+         * @param name           the name
+         * @param command_class  the command class
+         * @param argument_count the argument count
+         */
         _CommandInformation(String name, Class<?> command_class, int argument_count){
             this.name = name;
             this.command_class = command_class;
@@ -25,6 +57,9 @@ public class Invoker {
 
     }
 
+    /**
+     * The Commands info.
+     */
     public static Vector<_CommandInformation> commandsInfo;
 
     static{
@@ -95,6 +130,12 @@ public class Invoker {
                 0));
     }
 
+    /**
+     * Find command by class command information.
+     *
+     * @param command_class the command class
+     * @return the command information
+     */
     public  static _CommandInformation findCommandByClass(Class<?> command_class){
         for (_CommandInformation i :
                 commandsInfo){
@@ -148,14 +189,36 @@ public class Invoker {
         throw new IllegalArgumentException("wrong command");
     }
 
+    /**
+     * Execute.
+     *
+     * @param command the command
+     */
     public void execute(Command command){
         doneCommands.add(command);
         command.execute();
     }
+
+    /**
+     * Instantiates a new Invoker.
+     *
+     * @param data the data
+     */
     public Invoker(DeqCollection<?> data) {
         this.data = data;
     }
 
+    /**
+     * Parse command.
+     *
+     * @param str             the str
+     * @param reader          the reader
+     * @param isStandardInput the is standard input
+     * @throws InvocationTargetException the invocation target exception
+     * @throws NoSuchMethodException     the no such method exception
+     * @throws InstantiationException    the instantiation exception
+     * @throws IllegalAccessException    the illegal access exception
+     */
     public void parseCommand(String str, BufferedReader reader, boolean isStandardInput)
             throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         if(str == null)

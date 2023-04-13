@@ -2,9 +2,26 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Optional;
 
+/**
+ * The type Command add if max.
+ */
 public class CommandAddIfMax extends Command{
+    /**
+     * The Reader.
+     */
     BufferedReader reader;
+    /**
+     * The Is standard input.
+     */
     boolean isStandardInput;
+
+    /**
+     * Instantiates a new Command add if max.
+     *
+     * @param data            the data
+     * @param reader          the reader
+     * @param isStandardInput the is standard input
+     */
     CommandAddIfMax(DeqCollection<?> data, BufferedReader reader, boolean isStandardInput) {
         super(data);
         this.reader = reader;

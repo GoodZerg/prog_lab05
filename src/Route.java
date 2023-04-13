@@ -3,6 +3,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 
+/**
+ * The type Route.
+ */
 public class Route implements Collectible, Comparable<Route>{
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -14,12 +17,26 @@ public class Route implements Collectible, Comparable<Route>{
 
     private static long nextId = 0;
 
+    /**
+     * Instantiates a new Route.
+     */
     Route(){
         id = ++nextId;
         setCreationDate(java.time.LocalDate.now());
 //        loadFromStandardInput();
     }
 
+    /**
+     * Instantiates a new Route.
+     *
+     * @param id           the id
+     * @param name         the name
+     * @param coordinates  the coordinates
+     * @param creationDate the creation date
+     * @param from         the from
+     * @param to           the to
+     * @param distance     the distance
+     */
     Route(long id, String name, Coordinates coordinates, java.time.LocalDate creationDate,
           Location from, Location to, Integer distance){
         setId(id);
@@ -31,54 +48,109 @@ public class Route implements Collectible, Comparable<Route>{
         setDistance(distance);
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         if(name == null || name.equals(""))
             throw new RuntimeException("Error Route");
         this.name = name;
     }
 
+    /**
+     * Gets coordinates.
+     *
+     * @return the coordinates
+     */
     public Coordinates getCoordinates() {
         return coordinates;
     }
 
+    /**
+     * Sets coordinates.
+     *
+     * @param coordinates the coordinates
+     */
     public void setCoordinates(Coordinates coordinates) {
         if(coordinates == null)
             throw new RuntimeException("Error Route");
         this.coordinates = coordinates;
     }
 
+    /**
+     * Gets creation date.
+     *
+     * @return the creation date
+     */
     public LocalDate getCreationDate() {
         return creationDate;
     }
 
+    /**
+     * Sets creation date.
+     *
+     * @param creationDate the creation date
+     */
     public void setCreationDate(LocalDate creationDate) {
         if(creationDate == null)
             throw new RuntimeException("Error Route");
         this.creationDate = creationDate;
     }
 
+    /**
+     * Gets from.
+     *
+     * @return the from
+     */
     public Location getFrom() {
         return from;
     }
 
+    /**
+     * Sets from.
+     *
+     * @param from the from
+     */
     public void setFrom(Location from) {
         if(from == null)
             throw new RuntimeException("Error Route");
         this.from = from;
     }
 
+    /**
+     * Gets to.
+     *
+     * @return the to
+     */
     public Location getTo() {
         return to;
     }
 
+    /**
+     * Sets to.
+     *
+     * @param to the to
+     */
     public void setTo(Location to) {
         this.to = to;
     }
@@ -98,6 +170,11 @@ public class Route implements Collectible, Comparable<Route>{
         nextId = id;
     }
 
+    /**
+     * Sets distance.
+     *
+     * @param distance the distance
+     */
     public void setDistance(Integer distance) {
         if (distance == null || distance <= 1)
             throw new RuntimeException("Error Route");

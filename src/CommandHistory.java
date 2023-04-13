@@ -4,8 +4,17 @@ import java.util.Vector;
 
 import static java.lang.Math.max;
 
+/**
+ * The type Command history.
+ */
 public class CommandHistory extends Command{
     private static final int max_history = 6;
+
+    /**
+     * Instantiates a new Command history.
+     *
+     * @param data the data
+     */
     CommandHistory(DeqCollection<?> data) {
         super(data);
     }
@@ -14,7 +23,7 @@ public class CommandHistory extends Command{
     public void execute() {
         Vector<Command> history = Invoker.getDoneCommands();
         if(history.isEmpty()){
-            System.out.println("История пуста");
+            System.out.println("History is empty");
         }
         int sizeHistory = history.size();
         for(int i = sizeHistory - 1; i >= max(sizeHistory - max_history, 0); i--){

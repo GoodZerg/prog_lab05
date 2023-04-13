@@ -3,6 +3,11 @@ import java.util.ArrayDeque;
 import java.util.Optional;
 
 
+/**
+ * The type Deq collection.
+ *
+ * @param <T> the type parameter
+ */
 public class DeqCollection<T extends Collectible & Comparable<T>> {
 
     private ArrayDeque<T> storage = new ArrayDeque<T>(0);
@@ -11,11 +16,24 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
     private final ArrayFactory<T> arrayFactory;
     private OutputHandler output;
 
+    /**
+     * Instantiates a new Deq collection.
+     *
+     * @param factory      the factory
+     * @param arrayFactory the array factory
+     * @param output       the output
+     */
     DeqCollection(Factory<T> factory, ArrayFactory<T> arrayFactory, OutputHandler output) {
         this.factory = factory;
         this.arrayFactory = arrayFactory;
         this.output = output;
     }
+
+    /**
+     * Load.
+     *
+     * @param fileReader the file reader
+     */
     public void load(FileReader fileReader){
         creationDate = java.time.LocalDate.now();
         while(fileReader.ready()){
@@ -30,6 +48,9 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
         if(!storage.isEmpty()) storage.getFirst().setStartID(max_id);
     }
 
+    /**
+     * Save.
+     */
     public void save(){
         output.start();
         for (T i : storage) {
@@ -38,20 +59,54 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
         output.close();
     }
 
+    /**
+     * Create contents t.
+     *
+     * @return the t
+     */
     public T createContents() {
         return factory.create();
     }
+
+    /**
+     * Create contents array t [ ].
+     *
+     * @param n the n
+     * @return the t [ ]
+     */
     public T[] createContentsArray(int n) {
         return arrayFactory.create(n);
     }
+
+    /**
+     * Gets storage.
+     *
+     * @return the storage
+     */
     public ArrayDeque<T> getStorage() {
         return storage;
     }
 
+    /**
+     * Gets creation date.
+     *
+     * @return the creation date
+     */
     public LocalDate getCreationDate() {
         return creationDate;
     }
 
+    /**
+     * Find max optional.
+     *
+     * @return the optional
+     */
     public Optional<T> findMax(){return storage.stream().max(T::compareTo);}
+
+    /**
+     * Find max by cord optional.
+     *
+     * @return the optional
+     */
     public Optional<T> findMaxByCord(){return storage.stream().max(T::compareByCord);}
 }

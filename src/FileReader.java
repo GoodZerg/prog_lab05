@@ -1,8 +1,16 @@
 import java.io.*;
 
+/**
+ * The type File reader.
+ */
 public class FileReader {
     private final BufferedReader reader;
 
+    /**
+     * Instantiates a new File reader.
+     *
+     * @param file_name the file name
+     */
     FileReader(String file_name) {
         try {
             this.reader = new BufferedReader(new InputStreamReader(new FileInputStream(file_name)));
@@ -10,6 +18,12 @@ public class FileReader {
             throw new RuntimeException();
         }
     }
+
+    /**
+     * Get string.
+     *
+     * @return the string
+     */
     public String get() {
         try {
             return reader.readLine();
@@ -20,6 +34,11 @@ public class FileReader {
         }
     }
 
+    /**
+     * Ready boolean.
+     *
+     * @return the boolean
+     */
     public boolean ready() {
         try {
             return reader.ready();
@@ -30,6 +49,9 @@ public class FileReader {
         }
     }
 
+    /**
+     * Close.
+     */
     public void close() {
         try {
             reader.close();

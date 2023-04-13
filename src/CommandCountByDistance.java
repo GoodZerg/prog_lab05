@@ -1,8 +1,18 @@
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * The type Command count by distance.
+ */
 public class CommandCountByDistance extends Command{
     private final Integer distance;
+
+    /**
+     * Instantiates a new Command count by distance.
+     *
+     * @param data     the data
+     * @param distance the distance
+     */
     CommandCountByDistance(DeqCollection<?> data, Integer distance) {
         super(data);
         this.distance = distance;

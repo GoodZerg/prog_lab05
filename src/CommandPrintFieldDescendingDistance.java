@@ -3,7 +3,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * The type Command print field descending distance.
+ */
 public class CommandPrintFieldDescendingDistance extends Command{
+    /**
+     * Instantiates a new Command print field descending distance.
+     *
+     * @param data the data
+     */
     CommandPrintFieldDescendingDistance(DeqCollection<?> data) {
         super(data);
     }

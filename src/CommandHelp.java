@@ -1,4 +1,12 @@
+/**
+ * The type Command help.
+ */
 public class CommandHelp extends Command{
+    /**
+     * Instantiates a new Command help.
+     *
+     * @param data the data
+     */
     public CommandHelp(DeqCollection<?> data) {
         super(data);
     }

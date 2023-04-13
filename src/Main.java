@@ -1,4 +1,12 @@
+/**
+ * The type Main.
+ */
 public class Main {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         String file_name = args[0];
 //            = "src\\start.txt"; //TODO REMOVE DEBUG

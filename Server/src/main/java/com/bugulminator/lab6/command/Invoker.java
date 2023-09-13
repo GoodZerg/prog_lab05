@@ -7,8 +7,9 @@ import com.bugulminator.lab6.network.C2SPackage;
 import com.bugulminator.lab6.network.S2CPackage;
 
 import java.io.BufferedReader;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.channels.SocketChannel;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
@@ -156,7 +157,7 @@ public class Invoker {
         return new CommandInformation("Error", Command.class, 0);
     }
 
-    public void processRemoteRequest(C2SPackage data, SocketChannel remote) {
+    public void processRemoteRequest(C2SPackage data, OutputStream remote) {
         String res = "Error while processing request\n";
 
         CommandInformation command = findCommandByClass(data.clazz());

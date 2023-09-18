@@ -50,6 +50,7 @@ public class NetworkHandler {
         serverSocketChannel.bind(new InetSocketAddress(serverAddress, serverPort));
         serverSocketChannel.configureBlocking(false);
 
+
         int operations = serverSocketChannel.validOps();
         serverSocketChannel.register(selector, operations, null);
 

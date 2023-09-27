@@ -1,5 +1,6 @@
 package com.bugulminator.lab6;
 
+import com.bugulminator.lab6.collection.DatabaseManager;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.io.InputHandler;
@@ -23,6 +24,7 @@ public class Server {
         NetworkHandler networkHandler;
         try {
             networkHandler = NetworkHandler.getInstance();
+            DatabaseManager.connect();
             new Thread(networkHandler::start).start();
             InputHandler inputHandler = new InputHandler(
                     new DeqCollection<>(
@@ -32,6 +34,7 @@ public class Server {
                     )
             );
             inputHandler.start(fileName);
+            DatabaseManager.close();
             networkHandler.close();
         } catch (Throwable ex) {
             System.err.println(ex.getMessage());

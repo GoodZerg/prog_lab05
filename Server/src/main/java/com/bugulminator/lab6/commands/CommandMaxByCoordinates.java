@@ -5,6 +5,7 @@ import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.util.Map;
 import java.util.Optional;
@@ -40,13 +41,13 @@ public class CommandMaxByCoordinates extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         Optional<Route> max = data.findMaxByCord();
         final String res[] = new String[1];
         Consumer<? super Route> resFiller = (Route route) -> {
             res[0] = route.toString();
         };
         max.ifPresent(resFiller);
-        return res[0];
+        return new ResponseEntity(res[0]);
     }
 }

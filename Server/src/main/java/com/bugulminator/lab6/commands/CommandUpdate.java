@@ -7,6 +7,7 @@ import com.bugulminator.lab6.collection.data.Location;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.io.BufferedReader;
 import java.time.LocalDate;
@@ -98,7 +99,7 @@ public class CommandUpdate extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         Route route = new Route();
         route.setName((String) context.get("name"));
         route.setCoordinates(
@@ -129,11 +130,11 @@ public class CommandUpdate extends Command implements RemoteCommand {
             if (arr[it].getId() == (Long)context.get("id")) {
                 arr[it] = route;
                 data.setStorage(new ArrayDeque<>(List.of(arr)));
-                return "Element was updated";
+                return new ResponseEntity("Element was updated");
             }
         }
 
 
-        return "Element wasn't updated";
+        return new ResponseEntity("Element wasn't updated");
     }
 }

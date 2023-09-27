@@ -5,6 +5,8 @@ import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
+import com.bugulminator.lab6.network.ResponseStatus;
 
 import java.util.Map;
 
@@ -53,14 +55,14 @@ public class CommandRemoveById extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         Route[] arr = data.getStorage().toArray(data.createContentsArray(data.getStorage().size()));
         for (Route i : arr) {
             if (i.getId() == id) {
                 data.getStorage().remove(i);
-                return "Successfully deleted";
+                return new ResponseEntity("Successfully deleted");
             }
         }
-        return "No element with such id";
+        return new ResponseEntity("No element with such id", ResponseStatus.ERROR);
     }
 }

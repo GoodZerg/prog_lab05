@@ -5,6 +5,7 @@ import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.util.Map;
 import java.util.Objects;
@@ -51,13 +52,13 @@ public class CommandCountByDistance extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         int count = 0;
         for (Route i : data.getStorage().toArray(data.createContentsArray(data.getStorage().size()))) {
             if (Objects.equals(i.getDistance(), context.get("distance"))) {
                 count++;
             }
         }
-        return String.valueOf(count);
+        return new ResponseEntity(String.valueOf(count));
     }
 }

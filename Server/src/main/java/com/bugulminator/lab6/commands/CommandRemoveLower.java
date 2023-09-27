@@ -7,6 +7,7 @@ import com.bugulminator.lab6.collection.data.Location;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.io.BufferedReader;
 import java.time.LocalDate;
@@ -93,7 +94,7 @@ public class CommandRemoveLower extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         Route route = new Route();
         route.setName((String) context.get("name"));
         route.setCoordinates(
@@ -128,6 +129,6 @@ public class CommandRemoveLower extends Command implements RemoteCommand {
                 count++;
             }
         }
-        return count == 0 ? "None of elements were deleted" : "Deleted " + count + " element(s)";
+        return new ResponseEntity(count == 0 ? "None of elements were deleted" : "Deleted " + count + " element(s)");
     }
 }

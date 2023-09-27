@@ -4,6 +4,7 @@ import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.util.Map;
 
@@ -33,11 +34,11 @@ public class CommandInfo extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         String res = "";
         res += "type : " + data.getStorage().getClass() + "\n";
         res += "creationDate : " + data.getCreationDate() + "\n";
         res += "number of elements : " + data.getStorage().size() + "\n";
-        return res;
+        return new ResponseEntity(res);
     }
 }

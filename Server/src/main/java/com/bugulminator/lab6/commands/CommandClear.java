@@ -4,6 +4,7 @@ import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.util.Map;
 
@@ -31,8 +32,8 @@ public class CommandClear extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         data.getStorage().clear();
-        return "Storage cleared";
+        return new ResponseEntity("Storage cleared");
     }
 }

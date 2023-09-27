@@ -4,6 +4,8 @@ import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
+import com.bugulminator.lab6.network.ResponseStatus;
 
 import java.util.Map;
 
@@ -30,13 +32,13 @@ public class CommandCheckId extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         Long id = (Long) context.get("id");
         for (var it : data.getStorage()) {
             if (it.getId() == id) {
-                return "true";
+                return new ResponseEntity(ResponseStatus.OK);
             }
         }
-        return "false";
+        return new ResponseEntity(ResponseStatus.ERROR);
     }
 }

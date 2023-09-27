@@ -5,6 +5,7 @@ import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,7 +46,7 @@ public class CommandPrintFieldDescendingDistance extends Command implements Remo
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         StringBuilder res = new StringBuilder();
         Route[] arr = data.getStorage().toArray(data.createContentsArray(data.getStorage().size()));
         Arrays.sort(arr, Route::compareTo);
@@ -54,6 +55,6 @@ public class CommandPrintFieldDescendingDistance extends Command implements Remo
         for (Route i : list) {
             res.append(i.getDistance()).append("\n");
         }
-        return res.toString();
+        return new ResponseEntity(res.toString());
     }
 }

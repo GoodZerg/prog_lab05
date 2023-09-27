@@ -5,6 +5,7 @@ import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.Invoker;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.util.Map;
 import java.util.Vector;
@@ -46,7 +47,7 @@ public class CommandHistory extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         String res = "";
         Vector<Command> history = Invoker.getDoneCommands();
         if (history.isEmpty()) {
@@ -58,6 +59,6 @@ public class CommandHistory extends Command implements RemoteCommand {
             res += (i + 1 + ": " + command.name + "\n");
         }
         res += ("...");
-        return res;
+        return new ResponseEntity(res);
     }
 }

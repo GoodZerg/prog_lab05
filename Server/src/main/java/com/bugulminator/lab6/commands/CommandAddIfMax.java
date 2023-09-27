@@ -7,6 +7,8 @@ import com.bugulminator.lab6.collection.data.Location;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.RemoteCommand;
+import com.bugulminator.lab6.command.ResponseEntity;
+import com.bugulminator.lab6.network.ResponseStatus;
 
 import java.io.BufferedReader;
 import java.time.LocalDate;
@@ -95,7 +97,7 @@ public class CommandAddIfMax extends Command implements RemoteCommand {
     }
 
     @Override
-    public String process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context) {
         Route route = new Route();
         route.setName((String) context.get("name"));
         route.setCoordinates(
@@ -129,12 +131,12 @@ public class CommandAddIfMax extends Command implements RemoteCommand {
             _max = max.get();
         } else {
             data.getStorage().add(route);
-            return "Added new element";
+            return new ResponseEntity("Added new element");
         }
         if (route.compareTo(_max) > 0) {
             data.getStorage().add(route);
-            return "Added new element";
+            return new ResponseEntity("Added new element");
         }
-        return "Element not added";
+        return new ResponseEntity("Element not added");
     }
 }

@@ -23,7 +23,7 @@ public class DatabaseManager {
     private static final int PORT = 2222;
     private static final String USER = "s367231";
 
-    public static void connect() throws SQLException, JSchException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public static void connect() throws SQLException, JSchException {
         String heliosPass = System.getenv("HELIOS_PASS");
         String dbPass = System.getenv("DB_PASS");
         if (heliosPass == null || dbPass == null) {

@@ -4,6 +4,7 @@ import com.bugulminator.lab6.NetworkHandler;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.commands.*;
 import com.bugulminator.lab6.network.C2SPackage;
+import com.bugulminator.lab6.network.ResponseStatus;
 import com.bugulminator.lab6.network.S2CPackage;
 
 import java.io.BufferedReader;
@@ -157,23 +158,23 @@ public class Invoker {
     }
 
     public void processRemoteRequest(C2SPackage data, SocketChannel remote) {
-        String res = "Error while processing request\n";
+        ResponseEntity res;
 
         CommandInformation command = findCommandByClass(data.clazz());
         try {
             res = executeRemoteCommand(command.name, data.data());
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException ex) {
-            res += ex.getMessage();
+            res = new ResponseEntity("Error while processing request\n" + ex.getMessage(), ResponseStatus.ERROR);
         }
 
         NetworkHandler.getInstance().sendPackage(
-                new S2CPackage(res),
+                new S2CPackage(res.output(), res.status()),
                 remote
         );
     }
 
-    private String executeRemoteCommand(String command, Map<String, Object> context)
+    private ResponseEntity executeRemoteCommand(String command, Map<String, Object> context)
             throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         for (CommandInformation i : commandsInfo) {
             if (command.equals(i.name)) {
@@ -263,7 +264,7 @@ public class Invoker {
         command.execute();
     }
 
-    public static String remoteExecute(Command command, Map<String, Object> data) throws IllegalAccessException {
+    public static ResponseEntity remoteExecute(Command command, Map<String, Object> data) throws IllegalAccessException {
         doneCommands.add(command);
         if (command instanceof RemoteCommand remoteCommand) {
             if (!remoteCommand.isValid(data)) {

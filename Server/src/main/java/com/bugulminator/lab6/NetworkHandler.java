@@ -7,6 +7,13 @@ import com.bugulminator.lab6.command.Invoker;
 
 import java.io.*;
 import java.net.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.Iterator;
+import java.util.Set;
 
 public class NetworkHandler {
     private static NetworkHandler instance = null;
@@ -14,7 +21,8 @@ public class NetworkHandler {
     public static final String DEFAULT_SERVER_PORT = "54321";
     public static final int BUFFER_SIZE = 0xFFFF;
 
-    private final ServerSocket serverSocket;
+    private final Selector selector;
+    private final ServerSocketChannel serverSocketChannel;
 
     private NetworkHandler() throws IOException {
         String serverAddress = System.getenv("LAB_SERVER_ADDRESS");
@@ -37,61 +45,97 @@ public class NetworkHandler {
             serverPort = Integer.parseInt(DEFAULT_SERVER_PORT);
         }
 
-        serverSocket = new ServerSocket(serverPort, 50, InetAddress.getByName(serverAddress));
+        selector = Selector.open();
+        serverSocketChannel = ServerSocketChannel.open();
+        serverSocketChannel.bind(new InetSocketAddress(serverAddress, serverPort));
+        serverSocketChannel.configureBlocking(false);
+
+
+        int operations = serverSocketChannel.validOps();
+        serverSocketChannel.register(selector, operations, null);
+
         System.out.println("Server is ready to accept connections");
     }
 
     public void start() {
         while (true) {
+            Thread.onSpinWait();
             try {
                 acceptConnections();
             } catch (IOException ex) {
-                System.err.println("Error while processing connection: " + ex.getMessage());
+                System.err.println("Error while processing connection:" + ex.getMessage());
                 ex.printStackTrace();
             }
         }
     }
 
     private void acceptConnections() throws IOException {
-        Socket clientSocket = serverSocket.accept();
-        System.out.println("Connection accepted: " + clientSocket.getRemoteSocketAddress());
+        selector.select();
 
-        try (
-                InputStream inputStream = clientSocket.getInputStream();
-                OutputStream outputStream = clientSocket.getOutputStream();
-        ) {
-            while (true) {
-                Thread.onSpinWait();
+        Set<SelectionKey> keys = selector.selectedKeys();
+        Iterator<SelectionKey> selectionKeyIterator = keys.iterator();
+
+        while (selectionKeyIterator.hasNext()) {
+            SelectionKey currentKey = selectionKeyIterator.next();
+
+            if (currentKey.isAcceptable()) {
+                SocketChannel client = serverSocketChannel.accept();
+                client.configureBlocking(false);
+
+                client.register(selector, SelectionKey.OP_READ);
+                System.out.println("Connection accepted: " + client.getRemoteAddress());
+            } else if (currentKey.isReadable()) {
+                SocketChannel client = (SocketChannel) currentKey.channel();
+
                 try {
-                    byte[] buffer = new byte[BUFFER_SIZE];
-                    inputStream.read(buffer);
-                    C2SPackage request = (C2SPackage) PayloadHandler.deserialize(buffer);
-                    System.out.println(request.clazz());
-                    Invoker.getInstance().processRemoteRequest(request, outputStream);
-                } catch (IOException ex) {
-                    System.out.println("Connection closed: " + clientSocket.getRemoteSocketAddress());
-                    break;
+                    C2SPackage request = receivePackage(client);
+                    Invoker.getInstance().processRemoteRequest(request, client);
+                } catch (SocketException ex) {
+                    System.out.println("Connection closed: " + client.getRemoteAddress());
+                    client.close();
                 } catch (ClassNotFoundException ex) {
                     System.err.println("Received broken package");
                 }
             }
-        } finally {
-            clientSocket.close();
+
+            selectionKeyIterator.remove();
         }
     }
 
-    public void sendPackage(S2CPackage data, OutputStream outputStream) {
+    public void sendPackage(S2CPackage data, SocketChannel remote) {
         try {
-            byte[] buffer = PayloadHandler.serialize(data);
-            outputStream.write(buffer, 0, buffer.length);
-            System.out.println("Sending message to client");
+            byte[] bytes = PayloadHandler.serialize(data);
+            sendBytes(bytes, remote);
         } catch (IOException ex) {
             System.err.println("Unable to send package");
         }
     }
 
+    public void sendBytes(byte[] bytes, SocketChannel client) {
+        try {
+            ByteBuffer buffer = ByteBuffer.wrap(bytes);
+            client.write(buffer);
+            System.out.println("Sending message to " + client.getRemoteAddress());
+            buffer.clear();
+        } catch (IOException ex) {
+            System.err.println("Error while sending package to client");
+        }
+    }
+
+    public byte[] receiveBytes(SocketChannel remote) throws IOException {
+        ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
+        remote.read(buffer);
+        return buffer.array();
+    }
+
+    public C2SPackage receivePackage(SocketChannel remote) throws IOException, ClassNotFoundException {
+        System.out.println("Received package from " + remote.getRemoteAddress());
+        byte[] bytes = receiveBytes(remote);
+        return (C2SPackage) PayloadHandler.deserialize(bytes);
+    }
+
     public void close() throws IOException {
-        serverSocket.close();
+        serverSocketChannel.close();
     }
 
     public static NetworkHandler getInstance() {

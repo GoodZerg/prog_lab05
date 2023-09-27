@@ -1,6 +1,7 @@
 package com.bugulminator.lab6.commands;
 
 import com.bugulminator.lab6.collection.Collectible;
+import com.bugulminator.lab6.collection.DatabaseManager;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Coordinates;
 import com.bugulminator.lab6.collection.data.Location;
@@ -11,6 +12,7 @@ import com.bugulminator.lab6.command.ResponseEntity;
 import com.bugulminator.lab6.network.ResponseStatus;
 
 import java.io.BufferedReader;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
@@ -97,7 +99,7 @@ public class CommandAddIfMax extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         Route route = new Route();
         route.setName((String) context.get("name"));
         route.setCoordinates(
@@ -130,10 +132,20 @@ public class CommandAddIfMax extends Command implements RemoteCommand {
         if (max.isPresent()) {
             _max = max.get();
         } else {
+            try {
+                DatabaseManager.putRoute(route);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             data.getStorage().add(route);
             return new ResponseEntity("Added new element");
         }
         if (route.compareTo(_max) > 0) {
+            try {
+                DatabaseManager.putRoute(route);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             data.getStorage().add(route);
             return new ResponseEntity("Added new element");
         }

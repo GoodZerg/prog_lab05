@@ -52,7 +52,7 @@ public class CommandCountByDistance extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         int count = 0;
         for (Route i : data.getStorage().toArray(data.createContentsArray(data.getStorage().size()))) {
             if (Objects.equals(i.getDistance(), context.get("distance"))) {

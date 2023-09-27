@@ -170,7 +170,7 @@ public class Invoker {
 
         CommandInformation command = findCommandByClass(data.clazz());
         try {
-            res = executeRemoteCommand(command.name, data.data());
+            res = executeRemoteCommand(command.name, data.data(), data.credentials().login());
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException ex) {
             res = new ResponseEntity("Error while processing request\n" + ex.getMessage(), ResponseStatus.ERROR);
@@ -182,7 +182,7 @@ public class Invoker {
         );
     }
 
-    private ResponseEntity executeRemoteCommand(String command, Map<String, Object> context)
+    private ResponseEntity executeRemoteCommand(String command, Map<String, Object> context, String executor)
             throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         for (CommandInformation i : commandsInfo) {
             if (command.equals(i.name)) {
@@ -191,27 +191,27 @@ public class Invoker {
                         Objects.equals("remove_lower", i.name)) {
                     return remoteExecute((Command) i.commandClass.getDeclaredConstructor(
                             DeqCollection.class, BufferedReader.class, boolean.class
-                    ).newInstance(data, null, false), context);
+                    ).newInstance(data, null, false), context, executor);
 
                 } else if (Objects.equals("check_id", i.name)) {
                     return remoteExecute((Command) i.commandClass.getDeclaredConstructor(
-                            DeqCollection.class).newInstance(data), context);
+                            DeqCollection.class).newInstance(data), context, executor);
                 } else if (Objects.equals("update", i.name)) {
                     return remoteExecute((Command) i.commandClass.getDeclaredConstructor(
                                     DeqCollection.class, Long.class, BufferedReader.class, boolean.class)
-                            .newInstance(data, null, null, false), context);
+                            .newInstance(data, null, null, false), context, executor);
 
                 } else if (Objects.equals("remove_by_id", i.name)) {
                     return remoteExecute((Command) i.commandClass.getDeclaredConstructor(DeqCollection.class, Long.class)
-                            .newInstance(data, null), context);
+                            .newInstance(data, null), context, executor);
 
                 } else if (Objects.equals("count_by_distance", i.name)) {
                     return remoteExecute((Command) i.commandClass.getDeclaredConstructor(DeqCollection.class, Integer.class)
-                            .newInstance(data, null), context);
+                            .newInstance(data, null), context, executor);
 
                 } else {
                     return remoteExecute((Command) i.commandClass.getDeclaredConstructor(DeqCollection.class)
-                            .newInstance(data), context);
+                            .newInstance(data), context, executor);
                 }
             }
         }
@@ -272,13 +272,13 @@ public class Invoker {
         command.execute();
     }
 
-    public static ResponseEntity remoteExecute(Command command, Map<String, Object> data) throws IllegalAccessException {
+    public static ResponseEntity remoteExecute(Command command, Map<String, Object> data, String executor) throws IllegalAccessException {
         doneCommands.add(command);
         if (command instanceof RemoteCommand remoteCommand) {
             if (!remoteCommand.isValid(data)) {
                 throw new IllegalArgumentException("Illegal set of arguments for command");
             }
-            return remoteCommand.process(data);
+            return remoteCommand.process(data, executor);
         } else {
             throw new IllegalAccessException("Command is not remote executable");
         }

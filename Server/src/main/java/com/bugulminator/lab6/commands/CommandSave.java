@@ -1,5 +1,6 @@
 package com.bugulminator.lab6.commands;
 
+import com.bugulminator.lab6.collection.DatabaseManager;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
@@ -19,6 +20,6 @@ public class CommandSave extends Command {
 
     @Override
     public void execute() {
-        data.save();
+        DatabaseManager.save(data);
     }
 }

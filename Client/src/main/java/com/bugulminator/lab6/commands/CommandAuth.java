@@ -5,6 +5,7 @@ import com.bugulminator.lab6.NetworkHandler;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.exceptions.NotAuthorizedException;
 import com.bugulminator.lab6.network.C2SPackage;
+import com.bugulminator.lab6.network.ResponseStatus;
 
 import java.io.BufferedReader;
 import java.util.HashMap;
@@ -36,5 +37,9 @@ public class CommandAuth extends CredentialCommand {
                         AuthHandler.getInstance().getCredentials()
                 )
         );
+
+        if (NetworkHandler.getInstance().waitForResponseStatus() != ResponseStatus.OK) {
+            AuthHandler.getInstance().resetCredentials();
+        }
     }
 }

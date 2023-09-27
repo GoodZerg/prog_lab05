@@ -38,7 +38,7 @@ public class CommandRegister extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         Credentials credentials = (Credentials) context.get("credentials");
         boolean success = DatabaseManager.register(credentials.login(), credentials.password());
         return success ?

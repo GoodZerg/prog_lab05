@@ -46,7 +46,7 @@ public class CommandPrintFieldDescendingDistance extends Command implements Remo
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         StringBuilder res = new StringBuilder();
         Route[] arr = data.getStorage().toArray(data.createContentsArray(data.getStorage().size()));
         Arrays.sort(arr, Route::compareTo);

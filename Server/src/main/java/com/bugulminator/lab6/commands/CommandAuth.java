@@ -38,7 +38,7 @@ public class CommandAuth extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         Credentials credentials = (Credentials) context.get("credentials");
         boolean success = DatabaseManager.auth(credentials.login(), credentials.password());
         return success ?

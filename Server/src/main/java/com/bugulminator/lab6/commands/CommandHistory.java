@@ -47,7 +47,7 @@ public class CommandHistory extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         String res = "";
         Vector<Command> history = Invoker.getDoneCommands();
         if (history.isEmpty()) {

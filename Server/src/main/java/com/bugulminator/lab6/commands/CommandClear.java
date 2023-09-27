@@ -32,7 +32,7 @@ public class CommandClear extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         data.getStorage().clear();
         return new ResponseEntity("Storage cleared");
     }

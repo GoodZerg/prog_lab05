@@ -40,7 +40,7 @@ public class CommandShow extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         String res = "";
         res += ("Collection: \n");
         for (Collectible i : data.getStorage()) {

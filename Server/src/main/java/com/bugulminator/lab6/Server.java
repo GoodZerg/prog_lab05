@@ -16,24 +16,18 @@ public class Server {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.out.println("Need param");
-            return;
-        }
-        String fileName = args[0]; // "src/main/resources/start.txt";
         NetworkHandler networkHandler;
         try {
-            networkHandler = NetworkHandler.getInstance();
             DatabaseManager.connect();
+            networkHandler = NetworkHandler.getInstance();
             new Thread(networkHandler::start).start();
-            InputHandler inputHandler = new InputHandler(
-                    new DeqCollection<>(
-                            Route::new,
-                            Route[]::new,
-                            new OutputHandler(fileName)
-                    )
+            var collection = new DeqCollection<>(
+                    Route::new,
+                    Route[]::new
             );
-            inputHandler.start(fileName);
+            DatabaseManager.load(collection);
+            InputHandler inputHandler = new InputHandler(collection);
+            inputHandler.start();
             DatabaseManager.close();
             networkHandler.close();
         } catch (Throwable ex) {

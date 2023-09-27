@@ -34,7 +34,7 @@ public class CommandInfo extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         String res = "";
         res += "type : " + data.getStorage().getClass() + "\n";
         res += "creationDate : " + data.getCreationDate() + "\n";

@@ -1,7 +1,10 @@
 package com.bugulminator.lab6;
 
+import com.bugulminator.lab6.collection.DatabaseManager;
+import com.bugulminator.lab6.commands.CommandRegister;
 import com.bugulminator.lab6.network.C2SPackage;
 import com.bugulminator.lab6.network.PayloadHandler;
+import com.bugulminator.lab6.network.ResponseStatus;
 import com.bugulminator.lab6.network.S2CPackage;
 import com.bugulminator.lab6.command.Invoker;
 
@@ -89,7 +92,15 @@ public class NetworkHandler {
 
                 try {
                     C2SPackage request = receivePackage(client);
-                    Invoker.getInstance().processRemoteRequest(request, client);
+                    if (!DatabaseManager.auth(request.credentials().login(), request.credentials().password())
+                            && request.clazz() != CommandRegister.class) {
+                        NetworkHandler.getInstance().sendPackage(
+                                new S2CPackage("Incorrect credentials", ResponseStatus.ERROR),
+                                client
+                        );
+                    } else {
+                        Invoker.getInstance().processRemoteRequest(request, client);
+                    }
                 } catch (SocketException ex) {
                     System.out.println("Connection closed: " + client.getRemoteAddress());
                     client.close();

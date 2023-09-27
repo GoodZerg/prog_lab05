@@ -99,7 +99,7 @@ public class CommandUpdate extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         Route route = new Route();
         route.setName((String) context.get("name"));
         route.setCoordinates(

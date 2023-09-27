@@ -55,7 +55,7 @@ public class CommandRemoveById extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         Route[] arr = data.getStorage().toArray(data.createContentsArray(data.getStorage().size()));
         for (Route i : arr) {
             if (i.getId() == id) {

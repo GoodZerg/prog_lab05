@@ -28,10 +28,9 @@ public class InputHandler {
     /**
      * Start.
      *
-     * @param fileName the file name
      */
-    public void start(String fileName) {
-        data.load(new FileReader(fileName));
+    public void start() {
+        data.load();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         try {

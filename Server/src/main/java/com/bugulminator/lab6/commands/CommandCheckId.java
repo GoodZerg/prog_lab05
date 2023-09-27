@@ -32,7 +32,7 @@ public class CommandCheckId extends Command implements RemoteCommand {
     }
 
     @Override
-    public ResponseEntity process(Map<String, Object> context) {
+    public ResponseEntity process(Map<String, Object> context, String executor) {
         Long id = (Long) context.get("id");
         for (var it : data.getStorage()) {
             if (it.getId() == id) {

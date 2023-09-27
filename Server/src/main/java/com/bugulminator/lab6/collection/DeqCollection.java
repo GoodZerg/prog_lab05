@@ -1,8 +1,10 @@
 package com.bugulminator.lab6.collection;
 
+import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.io.FileReader;
 import com.bugulminator.lab6.io.OutputHandler;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.Optional;
@@ -19,49 +21,24 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
     private LocalDate creationDate;
     private final Factory<T> factory;
     private final ArrayFactory<T> arrayFactory;
-    private final OutputHandler output;
 
     /**
      * Instantiates a new Deq collection.
      *
      * @param factory      the factory
      * @param arrayFactory the array factory
-     * @param output       the output
      */
-    public DeqCollection(Factory<T> factory, ArrayFactory<T> arrayFactory, OutputHandler output) {
+    public DeqCollection(Factory<T> factory, ArrayFactory<T> arrayFactory) {
         this.factory = factory;
         this.arrayFactory = arrayFactory;
-        this.output = output;
     }
 
     /**
      * Load.
      *
-     * @param fileReader the file reader
      */
-    public void load(FileReader fileReader){
+    public void load() {
         creationDate = LocalDate.now();
-        while(fileReader.ready()){
-            T t = factory.create();
-            t.loadFromCsv(fileReader.get());
-            storage.add(t);
-        }
-        long max_id = 0;
-        for (T i : storage) {
-            if(i.getId() > max_id) max_id = i.getId();
-        }
-        if(!storage.isEmpty()) storage.getFirst().setStartID(max_id);
-    }
-
-    /**
-     * Save.
-     */
-    public void save(){
-        output.start();
-        for (T i : storage) {
-            output.writeLine(i.convertToCsv()+"\n");
-        }
-        output.close();
     }
 
     /**

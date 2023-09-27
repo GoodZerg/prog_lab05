@@ -16,6 +16,7 @@ public class Route implements Collectible, Comparable<Route> {
     private Location from; //Поле не может быть null
     private Location to; //Поле может быть null
     private Integer distance; //Поле не может быть null, Значение поля должно быть больше 1
+    private String owner = null;
 
     private static long nextId = 0;
 
@@ -35,6 +36,24 @@ public class Route implements Collectible, Comparable<Route> {
      */
     public void setId(long id) {
         this.id = id;
+    }
+
+    /**
+     * Sets owner
+     *
+     * @param owner the owner
+     */
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * Gets owner
+     *
+     * @return the owner
+     */
+    public String getOwner() {
+        return owner;
     }
 
     /**

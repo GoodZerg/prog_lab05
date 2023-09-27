@@ -19,7 +19,7 @@ public class Invoker {
     /**
      * The constant command_num.
      */
-    public static final int commandAmount = 16;
+    public static final int commandAmount = 18;
 
     /**
      * Get done commands vector.
@@ -106,6 +106,14 @@ public class Invoker {
                 CommandExit.class,
                 0));
         commandsInfo.add(new CommandInformation(
+                "auth",
+                CommandAuth.class,
+                0));
+        commandsInfo.add(new CommandInformation(
+                "register",
+                CommandRegister.class,
+                0));
+        commandsInfo.add(new CommandInformation(
                 "add_if_max",
                 CommandAddIfMax.class,
                 0));
@@ -153,7 +161,9 @@ public class Invoker {
                 if (words.length == i.argument_count + 1) {
                     if (Objects.equals("add", i.name) ||
                             Objects.equals("add_if_max", i.name) ||
-                            Objects.equals("remove_lower", i.name)) {
+                            Objects.equals("remove_lower", i.name) ||
+                            Objects.equals("auth", i.name) ||
+                            Objects.equals("register", i.name)) {
                         execute((Command) i.command_class.getDeclaredConstructor(
                                 DeqCollection.class, BufferedReader.class, boolean.class
                         ).newInstance(data, reader, isStandardInput));

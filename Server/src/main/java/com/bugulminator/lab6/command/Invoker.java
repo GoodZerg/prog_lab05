@@ -119,6 +119,14 @@ public class Invoker {
                 CommandExit.class,
                 0));
         commandsInfo.add(new CommandInformation(
+                "auth",
+                CommandAuth.class,
+                0));
+        commandsInfo.add(new CommandInformation(
+                "register",
+                CommandRegister.class,
+                0));
+        commandsInfo.add(new CommandInformation(
                 "add_if_max",
                 CommandAddIfMax.class,
                 0));
@@ -185,9 +193,6 @@ public class Invoker {
                             DeqCollection.class, BufferedReader.class, boolean.class
                     ).newInstance(data, null, false), context);
 
-                } else if (context == null) {
-                    return remoteExecute((Command) i.commandClass.getDeclaredConstructor(DeqCollection.class)
-                            .newInstance(data), null);
                 } else if (Objects.equals("check_id", i.name)) {
                     return remoteExecute((Command) i.commandClass.getDeclaredConstructor(
                             DeqCollection.class).newInstance(data), context);
@@ -204,6 +209,9 @@ public class Invoker {
                     return remoteExecute((Command) i.commandClass.getDeclaredConstructor(DeqCollection.class, Integer.class)
                             .newInstance(data, null), context);
 
+                } else {
+                    return remoteExecute((Command) i.commandClass.getDeclaredConstructor(DeqCollection.class)
+                            .newInstance(data), context);
                 }
             }
         }

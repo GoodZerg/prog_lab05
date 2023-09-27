@@ -1,11 +1,14 @@
 package com.bugulminator.lab6.commands;
 
+import com.bugulminator.lab6.AuthHandler;
 import com.bugulminator.lab6.NetworkHandler;
 import com.bugulminator.lab6.collection.Collectible;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
+import com.bugulminator.lab6.exceptions.NotAuthorizedException;
 import com.bugulminator.lab6.network.C2SPackage;
+import com.bugulminator.lab6.network.Credentials;
 
 import java.io.BufferedReader;
 import java.util.HashMap;
@@ -38,7 +41,7 @@ public class CommandAdd extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws NotAuthorizedException {
         Route tmp = (Route) data.createContents();
         tmp.loadFromStandardInput(reader, isStandardInput);
 
@@ -58,7 +61,8 @@ public class CommandAdd extends Command {
         NetworkHandler.getInstance().sendPackage(
                 new C2SPackage(
                         this.getClass(),
-                        context
+                        context,
+                        AuthHandler.getInstance().getCredentials()
                 )
         );
     }

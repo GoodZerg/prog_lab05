@@ -1,9 +1,11 @@
 package com.bugulminator.lab6.commands;
 
+import com.bugulminator.lab6.AuthHandler;
 import com.bugulminator.lab6.NetworkHandler;
 import com.bugulminator.lab6.collection.Collectible;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.command.Command;
+import com.bugulminator.lab6.exceptions.NotAuthorizedException;
 import com.bugulminator.lab6.network.C2SPackage;
 
 import java.util.HashMap;
@@ -28,13 +30,14 @@ public class CommandRemoveById extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws NotAuthorizedException {
         Map<String, Object> context = new HashMap<>();
         context.put("id", id);
         NetworkHandler.getInstance().sendPackage(
                 new C2SPackage(
                         this.getClass(),
-                        context
+                        context,
+                        AuthHandler.getInstance().getCredentials()
                 )
         );
     }

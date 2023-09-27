@@ -1,9 +1,11 @@
 package com.bugulminator.lab6.commands;
 
+import com.bugulminator.lab6.AuthHandler;
 import com.bugulminator.lab6.NetworkHandler;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.command.Command;
 import com.bugulminator.lab6.command.Invoker;
+import com.bugulminator.lab6.exceptions.NotAuthorizedException;
 import com.bugulminator.lab6.network.C2SPackage;
 
 import java.util.Vector;
@@ -26,11 +28,12 @@ public class CommandHistory extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws NotAuthorizedException {
         NetworkHandler.getInstance().sendPackage(
                 new C2SPackage(
                         this.getClass(),
-                        null
+                        null,
+                        AuthHandler.getInstance().getCredentials()
                 )
         );
     }

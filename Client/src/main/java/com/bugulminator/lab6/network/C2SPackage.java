@@ -7,5 +7,6 @@ import java.util.Map;
 
 public record C2SPackage(
         Class<? extends Command> clazz,
-        Map<String, Object> data
+        Map<String, Object> data,
+        Credentials credentials
 ) implements Serializable {}

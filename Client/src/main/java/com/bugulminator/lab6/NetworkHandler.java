@@ -2,6 +2,7 @@ package com.bugulminator.lab6;
 
 import com.bugulminator.lab6.network.C2SPackage;
 import com.bugulminator.lab6.network.PayloadHandler;
+import com.bugulminator.lab6.network.ResponseStatus;
 import com.bugulminator.lab6.network.S2CPackage;
 
 import java.io.IOException;
@@ -22,9 +23,8 @@ public class NetworkHandler {
     public static final String DEFAULT_CLIENT_PORT = Integer.toString(30000 + (int)(4000.0 * Math.random()));
     public static final String DEFAULT_SERVER_PORT = "54321";
     public static final int BUFFER_SIZE = 0xFFFF;
-    public static final String TRUE_RESPONSE = "true";
-    public static final String FALSE_RESPONSE = "false";
-    private static String lastResponse = null;
+    public static final String PREVENT_OUTPUT_CODE = "$%NO_OUTPUT%$";
+    private static ResponseStatus lastResponseStatus = null;
 
     private final Selector selector;
     private SocketChannel socketChannel = null;
@@ -102,10 +102,14 @@ public class NetworkHandler {
 
                 try {
                     S2CPackage response = receivePackage(client);
-                    lastResponse = response.response();
-                    if (!Objects.equals(lastResponse, TRUE_RESPONSE)
-                            && !Objects.equals(lastResponse, FALSE_RESPONSE)) {
-                        System.out.println(response.response());
+                    lastResponseStatus = response.status();
+                    if (!Objects.equals(response.response(), PREVENT_OUTPUT_CODE)) {
+                        switch (response.status()) {
+                            case OK -> System.out.println(response.response());
+                            case ERROR -> System.out.println("Error: " + response.response());
+                            case NOT_AUTHORISED -> System.out.println("Not authorised");
+                            default -> System.err.println("Unknown response code");
+                        }
                     }
                 } catch (SocketException ex) {
                     System.out.println("Connection with server was aborted");
@@ -139,7 +143,7 @@ public class NetworkHandler {
     }
 
     public void sendPackage(C2SPackage data) {
-        lastResponse = null;
+        lastResponseStatus = null;
         try {
             byte[] bytes = PayloadHandler.serialize(data);
             sendBytes(bytes);
@@ -173,7 +177,14 @@ public class NetworkHandler {
         return instance;
     }
 
-    public String getLastResponse() {
-        return lastResponse;
+    public ResponseStatus waitForResponseStatus() {
+        while (NetworkHandler.getInstance().getLastResponseStatus() == null) {
+            Thread.onSpinWait();
+        }
+        return getLastResponseStatus();
+    }
+
+    public ResponseStatus getLastResponseStatus() {
+        return lastResponseStatus;
     }
 }

@@ -2,7 +2,7 @@ package com.bugulminator.lab6.network;
 
 import java.io.Serializable;
 
-public record S2CPackage(
-        String response,
-        ResponseStatus status
+public record Credentials(
+        String login,
+        String password
 ) implements Serializable {}

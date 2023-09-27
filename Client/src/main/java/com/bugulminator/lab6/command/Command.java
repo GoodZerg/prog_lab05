@@ -1,6 +1,7 @@
 package com.bugulminator.lab6.command;
 
 import com.bugulminator.lab6.collection.DeqCollection;
+import com.bugulminator.lab6.exceptions.NotAuthorizedException;
 
 /**
  * The type main.lab6.Command.
@@ -23,5 +24,5 @@ public abstract class Command {
     /**
      * Execute.
      */
-    public abstract void execute();
+    public abstract void execute() throws NotAuthorizedException;
 }

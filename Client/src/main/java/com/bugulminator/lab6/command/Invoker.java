@@ -2,6 +2,7 @@ package com.bugulminator.lab6.command;
 
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.commands.*;
+import com.bugulminator.lab6.exceptions.NotAuthorizedException;
 
 import java.io.BufferedReader;
 import java.lang.reflect.InvocationTargetException;
@@ -194,7 +195,11 @@ public class Invoker {
      */
     public void execute(Command command) {
         doneCommands.add(command);
-        command.execute();
+        try {
+            command.execute();
+        } catch (NotAuthorizedException e) {
+            System.out.println("This command requires authentication");
+        }
     }
 
     /**

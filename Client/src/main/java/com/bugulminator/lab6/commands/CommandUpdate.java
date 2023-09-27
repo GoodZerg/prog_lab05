@@ -1,11 +1,14 @@
 package com.bugulminator.lab6.commands;
 
+import com.bugulminator.lab6.AuthHandler;
 import com.bugulminator.lab6.NetworkHandler;
 import com.bugulminator.lab6.collection.Collectible;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Route;
 import com.bugulminator.lab6.command.Command;
+import com.bugulminator.lab6.exceptions.NotAuthorizedException;
 import com.bugulminator.lab6.network.C2SPackage;
+import com.bugulminator.lab6.network.ResponseStatus;
 
 import java.io.BufferedReader;
 import java.util.HashMap;
@@ -53,21 +56,19 @@ public class CommandUpdate extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws NotAuthorizedException {
         Map<String, Object> context = new HashMap<>();
         context.put("id", id);
 
         NetworkHandler.getInstance().sendPackage(
                 new C2SPackage(
                         CommandCheckId.class,
-                        context
+                        context,
+                        AuthHandler.getInstance().getCredentials()
                 )
         );
 
-        while (NetworkHandler.getInstance().getLastResponse() == null) {
-            Thread.onSpinWait();
-        }
-        if (Objects.equals(NetworkHandler.getInstance().getLastResponse(), NetworkHandler.TRUE_RESPONSE)) {
+        if (Objects.equals(NetworkHandler.getInstance().waitForResponseStatus(), ResponseStatus.OK)) {
             Route tmp = (Route) data.createContents();
             tmp.loadFromStandardInput(reader, isStandardInput);
 
@@ -88,7 +89,8 @@ public class CommandUpdate extends Command {
             NetworkHandler.getInstance().sendPackage(
                     new C2SPackage(
                             this.getClass(),
-                            context
+                            context,
+                            AuthHandler.getInstance().getCredentials()
                     )
             );
         } else {

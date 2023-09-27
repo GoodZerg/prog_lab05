@@ -41,11 +41,11 @@ public class CommandShow extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
-        String res = "";
-        res += ("Collection: \n");
+        StringBuilder res = new StringBuilder();
+        res.append("Collection: \n");
         for (Collectible i : data.getStorage()) {
-            res += (i.toString());
+            res.append(i.toString());
         }
-        return new ResponseEntity(res);
+        return new ResponseEntity(res.toString());
     }
 }

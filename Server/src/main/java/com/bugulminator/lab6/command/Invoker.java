@@ -174,6 +174,7 @@ public class Invoker {
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException ex) {
             res = new ResponseEntity("Error while processing request\n" + ex.getMessage(), ResponseStatus.ERROR);
+            ex.printStackTrace();
         }
 
         NetworkHandler.getInstance().sendPackage(

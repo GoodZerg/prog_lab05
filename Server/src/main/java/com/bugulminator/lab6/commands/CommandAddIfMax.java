@@ -132,6 +132,7 @@ public class CommandAddIfMax extends Command implements RemoteCommand {
         if (max.isPresent()) {
             _max = max.get();
         } else {
+            route.setOwner(executor);
             try {
                 DatabaseManager.putRoute(route);
             } catch (SQLException ex) {
@@ -141,6 +142,7 @@ public class CommandAddIfMax extends Command implements RemoteCommand {
             return new ResponseEntity("Added new element");
         }
         if (route.compareTo(_max) > 0) {
+            route.setOwner(executor);
             try {
                 DatabaseManager.putRoute(route);
             } catch (SQLException ex) {

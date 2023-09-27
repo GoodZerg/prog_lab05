@@ -116,6 +116,7 @@ public class CommandAdd extends Command implements RemoteCommand {
                 )
         );
         route.setDistance((Integer) context.get("distance"));
+        route.setOwner(executor);
         try {
             DatabaseManager.putRoute(route);
         } catch (SQLException ex) {

@@ -140,7 +140,7 @@ public class DatabaseManager {
         try {
             DatabaseManager.truncate();
             var groups = data.getStorage();
-            groups.stream().forEach(route -> {
+            groups.forEach(route -> {
                 try {
                     DatabaseManager.putRoute(route);
                 } catch (SQLException ex) {
@@ -155,6 +155,26 @@ public class DatabaseManager {
             return;
         }
         System.out.println("Collection is saved to database");
+    }
+
+    public static void removeRoute(int id) throws SQLException {
+        var statement = connection.prepareStatement("DELETE FROM Routes WHERE id = ?");
+        statement.setInt(1, id);
+        statement.executeUpdate();
+        System.out.print("XXX");
+        // TODO remove fk values
+    }
+
+    public static void removeByOwner(String owner) throws SQLException {
+        var statement = connection.prepareStatement("DELETE FROM Routes WHERE owner = ?");
+        statement.setString(1, owner);
+        statement.executeUpdate();
+        // TODO remove fk values
+    }
+
+    public static void updateRoute(Route route, int id) throws SQLException {
+        removeRoute(id);
+        putRouteWithId(route, id);
     }
 
     public static int putCoordinates(Coordinates coordinates) throws SQLException {
@@ -183,7 +203,7 @@ public class DatabaseManager {
         return generated.getInt(1);
     }
 
-    public static int putRoute(Route route) throws SQLException {
+    public static void putRoute(Route route) throws SQLException {
         final var name = route.getName();
         final var coordinates = route.getCoordinates();
         final var creationDate = route.getCreationDate();
@@ -204,7 +224,26 @@ public class DatabaseManager {
         generated.next();
         var id = generated.getInt(1);
         route.setId(id);
-        return id;
+    }
+
+    public static void putRouteWithId(Route route, int id) throws SQLException {
+        final var name = route.getName();
+        final var coordinates = route.getCoordinates();
+        final var creationDate = route.getCreationDate();
+        final var from = route.getFrom();
+        final var to = route.getTo();
+        final var distance = route.getDistance();
+        final var owner = route.getOwner();
+        var statement = connection.prepareStatement("INSERT INTO Routes VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        statement.setInt(1, id);
+        statement.setString(2, name);
+        statement.setInt(3, putCoordinates(coordinates));
+        statement.setTimestamp(4, Timestamp.valueOf(creationDate.atStartOfDay())); // Kinda sus
+        statement.setInt(5, putLocation(from));
+        statement.setInt(6, putLocation(to));
+        statement.setInt(7, distance);
+        statement.setString(8, owner);
+        statement.executeUpdate();
     }
 
     public static boolean auth(String login, String password) {

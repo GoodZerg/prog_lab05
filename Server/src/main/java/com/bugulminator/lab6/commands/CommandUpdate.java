@@ -1,6 +1,7 @@
 package com.bugulminator.lab6.commands;
 
 import com.bugulminator.lab6.collection.Collectible;
+import com.bugulminator.lab6.collection.DatabaseManager;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Coordinates;
 import com.bugulminator.lab6.collection.data.Location;
@@ -10,6 +11,7 @@ import com.bugulminator.lab6.command.RemoteCommand;
 import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.io.BufferedReader;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.List;
@@ -129,11 +131,15 @@ public class CommandUpdate extends Command implements RemoteCommand {
         for (int it = 0; it < arr.length; ++it) {
             if (arr[it].getId() == (Long)context.get("id")) {
                 arr[it] = route;
+                try {
+                    DatabaseManager.updateRoute(route, (int) arr[it].getId());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 data.setStorage(new ArrayDeque<>(List.of(arr)));
                 return new ResponseEntity("Element was updated");
             }
         }
-
 
         return new ResponseEntity("Element wasn't updated");
     }

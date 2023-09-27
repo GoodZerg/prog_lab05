@@ -1,6 +1,7 @@
 package com.bugulminator.lab6.commands;
 
 import com.bugulminator.lab6.collection.Collectible;
+import com.bugulminator.lab6.collection.DatabaseManager;
 import com.bugulminator.lab6.collection.DeqCollection;
 import com.bugulminator.lab6.collection.data.Coordinates;
 import com.bugulminator.lab6.collection.data.Location;
@@ -10,8 +11,10 @@ import com.bugulminator.lab6.command.RemoteCommand;
 import com.bugulminator.lab6.command.ResponseEntity;
 
 import java.io.BufferedReader;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The type main.lab6.Command remove lower.
@@ -123,9 +126,14 @@ public class CommandRemoveLower extends Command implements RemoteCommand {
         Route[] arr = data.getStorage().toArray(data.createContentsArray(data.getStorage().size()));
 
         int count = 0;
-        for (Route i : arr) {
-            if (route.compareTo(i) > 0) {
-                data.getStorage().remove(i);
+        for (Route it : arr) {
+            if (route.compareTo(it) > 0 && Objects.equals(it.getOwner(), executor)) {
+                try {
+                    DatabaseManager.removeRoute((int) it.getId());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                data.getStorage().remove(it);
                 count++;
             }
         }

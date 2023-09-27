@@ -32,7 +32,7 @@ public class CommandRemoveById extends Command {
     @Override
     public void execute() throws NotAuthorizedException {
         Map<String, Object> context = new HashMap<>();
-        context.put("id", id);
+        context.put("id", (int) id);
         NetworkHandler.getInstance().sendPackage(
                 new C2SPackage(
                         this.getClass(),

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 /**
@@ -100,4 +101,18 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
      * @return the optional
      */
     public Optional<T> findMaxByCord(){return storage.stream().max(T::compareByCord);}
+
+    public void clear(String executor) {
+        try {
+            DatabaseManager.removeByOwner(executor);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        storage = storage.stream().filter(it -> {
+            if (it instanceof Route route) {
+                return route.getOwner() != executor;
+            }
+            return true;
+        }).collect(Collectors.toCollection(ArrayDeque::new));;
+    }
 }

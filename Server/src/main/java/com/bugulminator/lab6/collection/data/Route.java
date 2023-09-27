@@ -387,6 +387,11 @@ public class Route implements Collectible, Comparable<Route> {
         sb.append("Id: ");
         sb.append(getId());
         sb.append("\n");
+        if (owner != null) {
+            sb.append("Owner: ");
+            sb.append(getOwner());
+            sb.append("\n");
+        }
         sb.append("Name: \"");
         sb.append(getName());
         sb.append("\"\n");

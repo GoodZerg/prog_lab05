@@ -8,6 +8,7 @@ import com.bugulminator.lab6.command.ResponseEntity;
 import com.bugulminator.lab6.network.ResponseStatus;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class CommandCheckId extends Command implements RemoteCommand {
 
@@ -35,7 +36,7 @@ public class CommandCheckId extends Command implements RemoteCommand {
     public ResponseEntity process(Map<String, Object> context, String executor) {
         Long id = (Long) context.get("id");
         for (var it : data.getStorage()) {
-            if (it.getId() == id) {
+            if (it.getId() == id && Objects.equals(it.getOwner(), executor)) {
                 return new ResponseEntity(ResponseStatus.OK);
             }
         }

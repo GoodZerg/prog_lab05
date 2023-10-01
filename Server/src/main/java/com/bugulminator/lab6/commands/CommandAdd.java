@@ -92,6 +92,7 @@ public class CommandAdd extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         Route route = new Route();
         route.setName((String) context.get("name"));
         route.setCoordinates(
@@ -120,9 +121,11 @@ public class CommandAdd extends Command implements RemoteCommand {
         try {
             DatabaseManager.putRoute(route);
         } catch (SQLException ex) {
+            DeqCollection.rLock.unlock();
             throw new RuntimeException(ex);
         }
         data.getStorage().add(route);
+        DeqCollection.rLock.unlock();
         return new ResponseEntity("Added new element");
     }
 }

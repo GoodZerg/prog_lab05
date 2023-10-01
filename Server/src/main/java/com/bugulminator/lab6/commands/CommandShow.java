@@ -41,11 +41,13 @@ public class CommandShow extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         StringBuilder res = new StringBuilder();
         res.append("Collection: \n");
         for (Collectible i : data.getStorage()) {
             res.append(i.toString());
         }
+        DeqCollection.rLock.unlock();
         return new ResponseEntity(res.toString());
     }
 }

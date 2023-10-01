@@ -98,6 +98,7 @@ public class CommandRemoveLower extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         Route route = new Route();
         route.setName((String) context.get("name"));
         route.setCoordinates(
@@ -131,12 +132,14 @@ public class CommandRemoveLower extends Command implements RemoteCommand {
                 try {
                     DatabaseManager.removeRoute((int) it.getId());
                 } catch (SQLException e) {
+                    DeqCollection.rLock.unlock();
                     throw new RuntimeException(e);
                 }
                 data.getStorage().remove(it);
                 count++;
             }
         }
+        DeqCollection.rLock.unlock();
         return new ResponseEntity(count == 0 ? "None of elements were deleted" : "Deleted " + count + " element(s)");
     }
 }

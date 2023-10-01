@@ -42,12 +42,14 @@ public class CommandMaxByCoordinates extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         Optional<Route> max = data.findMaxByCord();
         final String res[] = new String[1];
         Consumer<? super Route> resFiller = (Route route) -> {
             res[0] = route.toString();
         };
         max.ifPresent(resFiller);
+        DeqCollection.rLock.unlock();
         return new ResponseEntity(res[0]);
     }
 }

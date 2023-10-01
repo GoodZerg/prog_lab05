@@ -47,6 +47,7 @@ public class CommandPrintFieldDescendingDistance extends Command implements Remo
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         StringBuilder res = new StringBuilder();
         Route[] arr = data.getStorage().toArray(data.createContentsArray(data.getStorage().size()));
         Arrays.sort(arr, Route::compareTo);
@@ -55,6 +56,7 @@ public class CommandPrintFieldDescendingDistance extends Command implements Remo
         for (Route i : list) {
             res.append(i.getDistance()).append("\n");
         }
+        DeqCollection.rLock.unlock();
         return new ResponseEntity(res.toString());
     }
 }

@@ -102,6 +102,7 @@ public class CommandUpdate extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         Route route = new Route();
         route.setName((String) context.get("name"));
         route.setCoordinates(
@@ -134,13 +135,15 @@ public class CommandUpdate extends Command implements RemoteCommand {
                 try {
                     DatabaseManager.updateRoute(route, (int) arr[it].getId());
                 } catch (SQLException e) {
+                    DeqCollection.rLock.unlock();
                     throw new RuntimeException(e);
                 }
                 data.setStorage(new ArrayDeque<>(List.of(arr)));
+                DeqCollection.rLock.unlock();
                 return new ResponseEntity("Element was updated");
             }
         }
-
+        DeqCollection.rLock.unlock();
         return new ResponseEntity("Element wasn't updated");
     }
 }

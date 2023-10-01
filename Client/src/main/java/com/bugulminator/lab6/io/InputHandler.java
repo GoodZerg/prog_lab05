@@ -31,7 +31,7 @@ public class InputHandler {
      * @param fileName the file name
      */
     public void start(String fileName) {
-        data.load(new FileReader(fileName));
+        //data.load(new FileReader(fileName));
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         try {

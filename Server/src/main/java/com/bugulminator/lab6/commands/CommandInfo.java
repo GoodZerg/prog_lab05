@@ -35,10 +35,12 @@ public class CommandInfo extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         String res = "";
         res += "type : " + data.getStorage().getClass() + "\n";
         res += "creationDate : " + data.getCreationDate() + "\n";
         res += "number of elements : " + data.getStorage().size() + "\n";
+        DeqCollection.rLock.unlock();
         return new ResponseEntity(res);
     }
 }

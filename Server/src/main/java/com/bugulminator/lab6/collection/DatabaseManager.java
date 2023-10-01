@@ -8,6 +8,7 @@ import java.sql.*;
 import com.bugulminator.lab6.collection.data.Coordinates;
 import com.bugulminator.lab6.collection.data.Location;
 import com.bugulminator.lab6.collection.data.Route;
+
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -17,10 +18,12 @@ public class DatabaseManager {
     
     private static Connection connection = null;
     private static Session session = null;
-    private static final int L_PORT = 1337;
+    private static final int L_PORT = 1400;
     private static final int R_PORT = 5432;
     private static final String URL = "jdbc:postgresql://localhost:" + L_PORT + "/studs";
     private static final String HOST = "helios.se.ifmo.ru";
+    public static final String DEFAULT_HELIOS_PASS = "ZExF,8188";
+    public static final String DEFAULT_DB_PASS = "eBwZgyzKjcfbNIi0";
     private static final String DB_HOST = "pg";
     private static final int PORT = 2222;
     private static final String USER = "s367231";
@@ -28,9 +31,13 @@ public class DatabaseManager {
     public static void connect() throws SQLException, JSchException {
         String heliosPass = System.getenv("HELIOS_PASS");
         String dbPass = System.getenv("DB_PASS");
-        if (heliosPass == null || dbPass == null) {
+
+        heliosPass = heliosPass != null ? heliosPass : DEFAULT_HELIOS_PASS;
+        dbPass = dbPass != null ? dbPass : DEFAULT_DB_PASS;
+
+        /*if (heliosPass == null || dbPass == null) {
             throw new SQLException("HELIOS_PASS or DB_PASS is not set");
-        }
+        }*/
         JSch jsch = new JSch();
         session = jsch.getSession(USER, HOST, PORT);
         session.setPassword(heliosPass);

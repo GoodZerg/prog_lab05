@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3af3cc13-6238-4a25-887d-5e21303f8806" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/server/command/RemoteCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/client/NetworkHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/client/NetworkHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/client/command/Invoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/client/command/Invoker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/client/commands/CommandInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/client/commands/CommandInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/network/C2SPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/network/C2SPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/network/S2CPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/network/S2CPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/server/NetworkHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/server/NetworkHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/server/command/Invoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/server/command/Invoker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/server/commands/CommandInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bugulminator/lab6/server/commands/CommandInfo.java" afterDir="false" />
-    </list>
+    <list default="true" id="3af3cc13-6238-4a25-887d-5e21303f8806" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +35,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "temurin-17",
-    "last_opened_file_path": "C:/Users/Armemius/Documents/Programming/prog_lab05/src/main/java/com/bugulminator/lab6/client",
+    "last_opened_file_path": "D:/JavaProjects/PLabsForTolyan/Client",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -137,6 +123,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694596323561</updated>
       <workItem from="1694596324386" duration="18069000" />
+      <workItem from="1695888306406" duration="30000" />
     </task>
     <servers />
   </component>

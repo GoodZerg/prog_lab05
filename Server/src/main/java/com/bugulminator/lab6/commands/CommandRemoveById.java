@@ -60,6 +60,7 @@ public class CommandRemoveById extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         Route[] arr = data.getStorage().toArray(data.createContentsArray(data.getStorage().size()));
         int id = (int) context.get("id");
         for (Route it : arr) {
@@ -67,12 +68,16 @@ public class CommandRemoveById extends Command implements RemoteCommand {
                 try {
                     DatabaseManager.removeRoute(id);
                 } catch (SQLException e) {
+                    DeqCollection.rLock.unlock();
                     throw new RuntimeException(e);
                 }
+
                 data.getStorage().remove(it);
+                DeqCollection.rLock.unlock();
                 return new ResponseEntity("Successfully deleted");
             }
         }
+        DeqCollection.rLock.unlock();
         return new ResponseEntity("No element with such id", ResponseStatus.ERROR);
     }
 }

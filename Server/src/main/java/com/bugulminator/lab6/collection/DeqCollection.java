@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.Optional;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  */
 public class DeqCollection<T extends Collectible & Comparable<T>> {
 
+    public static final ReentrantLock rLock = new ReentrantLock();
     private ArrayDeque<T> storage = new ArrayDeque<>(0);
     private LocalDate creationDate;
     private final Factory<T> factory;
@@ -39,7 +41,9 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
      *
      */
     public void load() {
+        rLock.lock();
         creationDate = LocalDate.now();
+        rLock.unlock();
     }
 
     /**
@@ -76,7 +80,8 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
      * @return the storage
      */
     public void setStorage(ArrayDeque<T> storage) {
-        this.storage = storage;
+
+        rLock.lock();this.storage = storage;rLock.unlock();
     }
 
     /**
@@ -103,9 +108,11 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
     public Optional<T> findMaxByCord(){return storage.stream().max(T::compareByCord);}
 
     public void clear(String executor) {
+        rLock.lock();
         try {
             DatabaseManager.removeByOwner(executor);
         } catch (SQLException e) {
+            rLock.unlock();
             throw new RuntimeException(e);
         }
         storage = storage.stream().filter(it -> {
@@ -114,5 +121,6 @@ public class DeqCollection<T extends Collectible & Comparable<T>> {
             }
             return true;
         }).collect(Collectors.toCollection(ArrayDeque::new));;
+        rLock.unlock();
     }
 }

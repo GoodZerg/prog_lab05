@@ -15,11 +15,12 @@ public class Client {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.out.println("Need param");
-            return;
-        }
-        String fileName = args[0];
+//        if (args.length < 1) {
+//            System.out.println("Need param");
+//            return;
+//        }
+//        String fileName = args[0];
+        String fileName = "start.txt";
         NetworkHandler networkHandler = null;
         try {
             while (networkHandler == null) {

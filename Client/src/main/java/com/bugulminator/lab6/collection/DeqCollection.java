@@ -6,6 +6,7 @@ import com.bugulminator.lab6.io.OutputHandler;
 import java.time.LocalDate;
 import java.util.ArrayDeque;
 import java.util.Optional;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
@@ -14,7 +15,6 @@ import java.util.Optional;
  * @param <T> the type parameter
  */
 public class DeqCollection<T extends Collectible & Comparable<T>> {
-
     private final ArrayDeque<T> storage = new ArrayDeque<>(0);
     private LocalDate creationDate;
     private final Factory<T> factory;

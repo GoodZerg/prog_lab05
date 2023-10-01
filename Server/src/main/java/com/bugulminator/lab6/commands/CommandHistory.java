@@ -48,6 +48,7 @@ public class CommandHistory extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         String res = "";
         Vector<Command> history = Invoker.getDoneCommands();
         if (history.isEmpty()) {
@@ -59,6 +60,7 @@ public class CommandHistory extends Command implements RemoteCommand {
             res += (i + 1 + ": " + command.name + "\n");
         }
         res += ("...");
+        DeqCollection.rLock.unlock();
         return new ResponseEntity(res);
     }
 }

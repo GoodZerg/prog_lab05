@@ -34,12 +34,15 @@ public class CommandCheckId extends Command implements RemoteCommand {
 
     @Override
     public ResponseEntity process(Map<String, Object> context, String executor) {
+        DeqCollection.rLock.lock();
         Long id = (Long) context.get("id");
         for (var it : data.getStorage()) {
             if (it.getId() == id && Objects.equals(it.getOwner(), executor)) {
+                DeqCollection.rLock.unlock();
                 return new ResponseEntity(ResponseStatus.OK);
             }
         }
+        DeqCollection.rLock.unlock();
         return new ResponseEntity(ResponseStatus.ERROR);
     }
 }

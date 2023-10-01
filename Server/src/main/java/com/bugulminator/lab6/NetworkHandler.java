@@ -17,12 +17,15 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 
 public class NetworkHandler {
     private static NetworkHandler instance = null;
     public static final String DEFAULT_SERVER_ADDRESS = "localhost";
     public static final String DEFAULT_SERVER_PORT = "54321";
     public static final int BUFFER_SIZE = 0xFFFF;
+    private final ForkJoinPool forkJoinPool = new ForkJoinPool(6);
+    private final ForkJoinPool forkJoinPool2 = new ForkJoinPool(6);
 
     private final Selector selector;
     private final ServerSocketChannel serverSocketChannel;
@@ -90,23 +93,33 @@ public class NetworkHandler {
             } else if (currentKey.isReadable()) {
                 SocketChannel client = (SocketChannel) currentKey.channel();
 
-                try {
-                    C2SPackage request = receivePackage(client);
-                    if (!DatabaseManager.auth(request.credentials().login(), request.credentials().password())
-                            && request.clazz() != CommandRegister.class) {
-                        NetworkHandler.getInstance().sendPackage(
-                                new S2CPackage("Incorrect credentials", ResponseStatus.ERROR),
-                                client
-                        );
-                    } else {
-                        Invoker.getInstance().processRemoteRequest(request, client);
+                forkJoinPool.submit(() -> {
+                    try {
+                        C2SPackage request = receivePackage(client);
+                        if (!DatabaseManager.auth(request.credentials().login(), request.credentials().password())
+                                && request.clazz() != CommandRegister.class) {
+                            NetworkHandler.getInstance().sendPackage(
+                                    new S2CPackage("Incorrect credentials", ResponseStatus.ERROR),
+                                    client
+                            );
+                        } else {
+                            new Thread(() -> {
+                                Invoker.getInstance().processRemoteRequest(request, client);
+                            }).start();
+                        }
+                    } catch (SocketException ex) {
+                        try {
+                            System.out.println("Connection closed: " + client.getRemoteAddress());
+                            client.close();
+                        } catch (IOException ignore) {}
+
+                    } catch (ClassNotFoundException ex) {
+                        System.err.println("Received broken package");
+                    } catch (IOException ex) {
+                        System.err.println("Error while processing connection:" + ex.getMessage());
+                        ex.printStackTrace();
                     }
-                } catch (SocketException ex) {
-                    System.out.println("Connection closed: " + client.getRemoteAddress());
-                    client.close();
-                } catch (ClassNotFoundException ex) {
-                    System.err.println("Received broken package");
-                }
+                });
             }
 
             selectionKeyIterator.remove();
@@ -114,12 +127,14 @@ public class NetworkHandler {
     }
 
     public void sendPackage(S2CPackage data, SocketChannel remote) {
-        try {
-            byte[] bytes = PayloadHandler.serialize(data);
-            sendBytes(bytes, remote);
-        } catch (IOException ex) {
-            System.err.println("Unable to send package");
-        }
+        forkJoinPool2.submit(() -> {
+            try {
+                byte[] bytes = PayloadHandler.serialize(data);
+                sendBytes(bytes, remote);
+            } catch (IOException ex) {
+                System.err.println("Unable to send package");
+            }
+        });
     }
 
     public void sendBytes(byte[] bytes, SocketChannel client) {

@@ -18,9 +18,9 @@ public class DatabaseManager {
     
     private static Connection connection = null;
     private static Session session = null;
-    private static final int L_PORT = 1400;
+    private static final int L_PORT = 5432;
     private static final int R_PORT = 5432;
-    private static final String URL = "jdbc:postgresql://localhost:" + L_PORT + "/studs";
+    private static final String URL = "jdbc:postgresql://pg:5432/studs";
     private static final String HOST = "helios.se.ifmo.ru";
     public static final String DEFAULT_HELIOS_PASS = "ZExF,8188";
     public static final String DEFAULT_DB_PASS = "eBwZgyzKjcfbNIi0";
@@ -38,6 +38,7 @@ public class DatabaseManager {
         /*if (heliosPass == null || dbPass == null) {
             throw new SQLException("HELIOS_PASS or DB_PASS is not set");
         }*/
+/*
         JSch jsch = new JSch();
         session = jsch.getSession(USER, HOST, PORT);
         session.setPassword(heliosPass);
@@ -47,7 +48,7 @@ public class DatabaseManager {
         System.out.println("SSH connection established");
         int assignedPort = session.setPortForwardingL(L_PORT, DB_HOST, R_PORT);
         System.out.println("Port successfully forwarded (" + "localhost:" + assignedPort + " -> " + USER + "@" + HOST + ":" + R_PORT + ")");
-        System.out.println("Establishing connection to database");
+        System.out.println("Establishing connection to database");*/
         connection = DriverManager.getConnection(URL, USER, dbPass);
         System.out.println("Connection to database established");
         try {
@@ -169,14 +170,12 @@ public class DatabaseManager {
         statement.setInt(1, id);
         statement.executeUpdate();
         System.out.print("XXX");
-        // TODO remove fk values
     }
 
     public static void removeByOwner(String owner) throws SQLException {
         var statement = connection.prepareStatement("DELETE FROM Routes WHERE owner = ?");
         statement.setString(1, owner);
         statement.executeUpdate();
-        // TODO remove fk values
     }
 
     public static void updateRoute(Route route, int id) throws SQLException {
